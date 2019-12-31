@@ -1,13 +1,10 @@
 <p align="center">
-<img src="logo.jpg" width="230" />
+<a href="https://designrevision.com/downloads/shards-dashboard-lite-react/">
+<img src="assets/preview.png" width="250" />
+</a>
 </p>
 
-<p align="center">
-Shards React is a free, beautiful and modern React UI kit <br /> based on <a href="https://github.com/designrevision/shards-ui">Shards</a>.
-</p>
-
-<br />
-
+<h1 align="center" style="border-bottom: none !important; margin-bottom: 5px !important;"><a href="https://designrevision.com/downloads/shards-dashboard-lite-react/">Shards Dashboard React</a></h1>
 <p align="center">
   <a href="#">
     <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg" />
@@ -17,73 +14,94 @@ Shards React is a free, beautiful and modern React UI kit <br /> based on <a hre
   </a>
 </p>
 
+<p align="center">
+A free React admin dashboard template pack featuring a modern design system <br />  and lots of custom templates and components.
+</p>
+
+<p align="center">
+  <a href="https://designrevision.com/demo/shards-dashboard-lite-react">
+    <img height="55px" src="assets/btn-live-preview.png" />
+  </a>
+  <a href="https://designrevision.com/downloads/shards-dashboard-lite-react">
+    <img height="55px" src="assets/btn-learn-more.png" />
+  </a>
+</p>
+
 <br />
 
 <p align="center">
-  <a href="https://designrevision.com/docs/shards-react/"><strong>Documentation & Demo</strong></a> •
-  <a href="https://designrevision.com/downloads/shards-react/"><strong>Official Page</strong></a>
+<a href="https://designrevision.com/downloads/shards-dashboard-lite-react">
+<img src="assets/demo-preview.gif" width="650" />
+</a>
 </p>
 
+<br />
 
-### Getting Started
-
-Getting started with Shards React is fairly simple. You can download Shards React via the official website, here on GitHub as a release package or by using a package manager such as Yarn or NPM.
-
-* [Official Website](https://designrevision.com/downloads/shards-react)
-* [Release Package](https://github.com/DesignRevision/shards-react/releases)
+> ✨ **Note:** You can download the Sketch files from the official product page.
 
 <br />
 
 ### Quick Start
 
-You can install Shards React via Yarn or NPM.
-
-```bash
-# Yarn
-yarn add shards-react
-
-# NPM
-npm i shards-react
-```
+* Install dependencies by running `yarn` or `npm install`.
+* Run `yarn start` or `npm run start` to start the local development server.
+* 😎 **That's it!** You're ready to start building awesome dashboards.
 
 <br />
 
-### Module Bundlers
+### Project Structure
 
-If you are using a module bundler such as [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/), you can import components as follows:
-
-```javascript
-import { Alert } from "shards-react";
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import "shards-ui/dist/css/shards.min.css"
-
-// ...
-```
+- This project is bootstrapped using [Create React App](https://github.com/facebook/create-react-app).
+- **Flux** is used for state management and all Flux specific files are located inside `src/flux`. Transitioning to a more robust solution such as Redux is also fairly simple.
+- All primary templates are located inside `src/views`.
+- There is only one single layout defined (Default) inside `src/layouts`, however, the current structure provides an easy way of extending the UI kit. 
+- The `src/components` directory hosts all template-specific subcomponents in their own subdirectory.
+- The layout styles inherited from Shards Dashboard are pulled in from the `src/shards-dashboard` submodule inside `src/App.js`.
+- Other extra styles specific to the libraries used are located inside `src/assets`.
+- The `src/utils` directory contains generic Chart.js utilities.
 
 <br />
 
-### Built Using
+### Available Scripts
 
-* [Shards UI Kit](https://designrevision.com/downloads/shards/)
-* [React Datepicker](https://reactdatepicker.com/)
-* [React Popper](https://github.com/FezVrasta/react-popper)
-* [noUiSlider by Léon Gersen (WTFPL License)](https://refreshless.com/nouislider/download/)
+### `npm start`
+
+Runs the app in the development mode.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
 
 <br />
 
-### Contributing
+### 🌟 Pro Version
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+If you're looking for something more, check out [Shards Dashboard Pro React](https://designrevision.com/downloads/shards-dashboard-pro-react/) which features many more custom templates and components. Use the `GITHUB15` coupon code for a **15% discount off the current price**.
 
 <br />
 
-### Roadmap
+### Built using
 
-[View the roadmap.](http://designrevision.com/docs/shards-react/roadmap)
+- [Shards React](https://github.com/designrevision/shards-react)
+- [Chart.js](https://www.chartjs.org/)
+- [Flux](https://facebook.github.io/flux/)
+- [No UI Slider](https://refreshless.com/nouislider/)
+- [React Datepicker](https://www.npmjs.com/package/react-datepicker)
+- [Quill](https://quilljs.com/)
 
 <br />
 
 ### Changelog
 
-[View notable changes.](CHANGELOG.md)
+Please check out the [CHANGELOG](CHANGELOG.md).
