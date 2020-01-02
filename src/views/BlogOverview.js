@@ -10,6 +10,9 @@ import NewDraft from "./../components/blog/NewDraft";
 import Discussions from "./../components/blog/Discussions";
 import TopReferrals from "./../components/common/TopReferrals";
 import { logoutUser } from "../Redux/actions/authActions";
+import jwt_decode from "jwt-decode";
+
+
 class Dashboard extends Component {
  
   constructor(props) {
@@ -17,6 +20,26 @@ class Dashboard extends Component {
    
   }
   
+  componentDidMount(){
+    const token = localStorage.getItem('jwtToken');
+    if(token !== null){
+      console.log({token})
+
+    const decoded = jwt_decode(token,{ header: true })
+    const iat = new Date(decoded.iat * 1000)
+    const exp = new Date(decoded.exp * 1000)
+    console.log({iat, exp})
+  if (exp < new Date().getTime()/1000) {
+  console.log("EXPIRED");
+  this.props.logoutUser();
+  } else {
+  console.log("NOT EXPIRED");
+  }
+  } else {
+    this.props.history.push("/login");
+
+  }}
+
   render() {
     const { user } = this.props.auth;
     const {smallStats} = this.props;
@@ -24,7 +47,7 @@ class Dashboard extends Component {
  <Container fluid className="main-content-container px-4">
     {/* Page Header */}
     <Row noGutters className="page-header py-4">
-      <PageTitle title="Blog Overview" subtitle="Dashboard" className="text-sm-left mb-3" />
+      <PageTitle title="Fit For Golf " subtitle="Dashboard" className="text-sm-left mb-3" />
     </Row>
 
     {/* Small Stats Blocks */}
@@ -186,6 +209,7 @@ Dashboard.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
+
 const mapStateToProps = state => ({
   auth: state.auth
 });

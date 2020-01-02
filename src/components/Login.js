@@ -2,18 +2,27 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../Redux/actions/authActions";
+import { loginUser, setErrorLogin } from "../Redux/actions/authActions";
 import classnames from "classnames";
 import "../styles/login.css";
-import  DefaultLayout  from "../layouts/Default";
-import { Container, Row, Col } from "shards-react";
+import "antd/dist/antd.css";
+import { Form, Input, Button, Spin, notification } from "antd";
+
+const openNotificationWithIcon = type => {
+  notification[type]({
+    message: "User Not Found",
+    description: "We coudn't find a User with this email id"
+  });
+};
+
 class Login extends Component {
   constructor() {
     super();
     this.state = {
       email: "",
       password: "",
-      errors: {}
+      errors: {},
+      spinnerLoading: false,
     };
   }
 
@@ -30,8 +39,15 @@ class Login extends Component {
 
     if (nextProps.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.errors,
+        showNotification: true
       });
+
+      if (nextProps.errors.loginError === true) {
+        this.setState({ spinnerLoading: false });
+        openNotificationWithIcon("error");
+        this.props.setErrorLogin(false);
+      }
     }
   }
 
@@ -39,53 +55,102 @@ class Login extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  onSubmit = e => {
+  handleSubmit = e => {
     e.preventDefault();
-    const userData = {
-      email: this.state.email,
-      password: this.state.password
-    };
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        this.setState({ spinnerLoading: true });
+        console.log(this.state);
+        console.log("Received values of form: ", values);
+        const userData = {
+          email: values.email,
+          password: values.password,
+          application: "golfapp"
+        };
 
-    this.props.loginUser(userData);
+        this.props.loginUser(userData);
+      }
+    });
   };
 
   render() {
     const { errors } = this.state;
+    const { getFieldDecorator } = this.props.form;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 }
+      }
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0
+        },
+        sm: {
+          span: 16,
+          offset: 8
+        }
+      }
+    };
+
     return (
-    
-      <Container fluid>
-      <Row>
       <div className="c-login-wrapper">
         <div class="c-login">
           <h1>Login</h1>
-          <form method="post">
-            <input
-              type="text"
-              name="u"
-              placeholder="Username"
-              required="required"
-              />
-            <input
-              type="password"
-              name="p"
-              placeholder="Password"
-              required="required"
-            />
-            <button type="submit" class="btn btn-primary btn-block btn-large">
-              Let me in.
-            </button>
-          </form>
+          <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form.Item label="E-mail">
+              {getFieldDecorator("email", {
+                rules: [
+                  {
+                    type: "email",
+                    message: "The input is not valid E-mail!"
+                  },
+                  {
+                    required: true,
+                    message: "Please input your E-mail!"
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="Password" hasFeedback>
+              {getFieldDecorator("password", {
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input your password!"
+                  }
+                ]
+              })(<Input.Password />)}
+            </Form.Item>
+
+            <Button
+              disabled={this.state.spinnerLoading}
+              className="c-login__button"
+              htmlType="submit"
+            >
+              <Spin
+                className="c-login__spinner"
+                spinning={this.state.spinnerLoading}
+              >
+                Let me in
+              </Spin>
+            </Button>
+          </Form>
         </div>
       </div>
-      </Row>
-    </Container>
-    
-
     );
   }
 }
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
+  setErrorLogin: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -93,4 +158,9 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
-export default connect(mapStateToProps, { loginUser })(Login);
+
+const WrappedLoginForm = Form.create({ name: "login" })(Login);
+
+export default connect(mapStateToProps, { loginUser, setErrorLogin })(
+  WrappedLoginForm
+);
