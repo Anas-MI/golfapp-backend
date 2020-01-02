@@ -50,7 +50,7 @@ export default () => (
   <Provider store={store}>
     <Router basename={process.env.REACT_APP_BASENAME || ""}>
       <div>
-        {/* {routes.map((route, index) => {
+        {routes.map((route, index) => {
           return (
             <Route
               key={index}
@@ -65,11 +65,13 @@ export default () => (
               })}
             />
           );
-        })} */}
+        })}
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        {/* <Route exact path="/Dashboard" component={Dashboard} /> */}
+
         <Switch>
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute exact path="/" component={Dashboard} />
         </Switch>
       </div>
     </Router>
