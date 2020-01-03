@@ -7,6 +7,11 @@ export default function() {
       htmlAfter: ""
     },
     {
+      title: "Users",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/users",
+    },
+    {
       title: "Blog Posts",
       htmlBefore: '<i class="material-icons">vertical_split</i>',
       to: "/blog-posts",
@@ -20,11 +25,6 @@ export default function() {
       title: "Forms & Components",
       htmlBefore: '<i class="material-icons">view_module</i>',
       to: "/components-overview",
-    },
-    {
-      title: "Tables",
-      htmlBefore: '<i class="material-icons">table_chart</i>',
-      to: "/tables",
     },
     {
       title: "User Profile",

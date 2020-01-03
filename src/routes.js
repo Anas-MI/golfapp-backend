@@ -6,11 +6,11 @@ import { DefaultLayout } from "./layouts";
 
 // Route Views
 import Dashboard from "./views/BlogOverview";
-import UserProfileLite from "./views/UserProfileLite";
+import UserProfile from "./views/UserProfileLite";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
-import Tables from "./views/Tables";
+import UserTable from "./views/Tables";
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
 import Login from "./components/Login"
@@ -29,9 +29,9 @@ export default [
     component: Dashboard
   },
   {
-    path: "/user-profile-lite",
+    path: "/userprofile/:id",
     layout: DefaultLayout,
-    component: UserProfileLite
+    component: UserProfile
   },
   {
     path: "/add-new-post",
@@ -49,9 +49,9 @@ export default [
     component: ComponentsOverview
   },
   {
-    path: "/tables",
+    path: "/users",
     layout: DefaultLayout,
-    component: Tables
+    component: UserTable
   },
   {
     path: "/blog-posts",

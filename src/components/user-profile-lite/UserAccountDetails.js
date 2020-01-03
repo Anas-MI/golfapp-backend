@@ -1,5 +1,8 @@
-import React from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
+import apiList from "../../services/apis/apiList";
+import axios from "axios";
+
 import {
   Card,
   CardHeader,
@@ -15,8 +18,109 @@ import {
   Button
 } from "shards-react";
 
-const UserAccountDetails = ({ title }) => (
-  <Card small className="mb-4">
+export default class UserAccountDetails extends Component{
+  
+    constructor(props){
+      super(props)
+      this.state = {
+        userData: {},
+        fields: {},
+        errors: {}
+      }
+      
+    }
+
+
+    componentDidMount(){
+      const { updateUserDetailsApi, getUserDetailsApi } = apiList;
+      const getUserDetailsRoute =
+        getUserDetailsApi + `${this.props.slug}`;
+      axios
+        .get(getUserDetailsRoute)
+        .then(res => {
+          if (res.status === 200) {
+            this.setState({ ...res.data });
+          }
+        })
+        .catch(err => {
+          console.log({ "Something went wrong": err });
+        });
+      // axios.post(updateUserDetailsApi, userData).then().catch()
+    }
+
+  handleValidation(){
+   let fields = this.state.fields;
+   let errors = {};
+   let formIsValid = true;
+  
+   //Name
+   if(!fields["name"]){
+      formIsValid = false;
+      errors["name"] = "Cannot be empty";
+   }
+  
+   if(typeof fields["name"] !== "undefined"){
+      if(!fields["name"].match(/^[a-zA-Z]+$/)){
+         formIsValid = false;
+         errors["name"] = "Only letters";
+      }        
+   }
+  
+   //Email
+   if(!fields["email"]){
+      formIsValid = false;
+      errors["email"] = "Cannot be empty";
+   }
+  
+   if(typeof fields["email"] !== "undefined"){
+      let lastAtPos = fields["email"].lastIndexOf('@');
+      let lastDotPos = fields["email"].lastIndexOf('.');
+  
+      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') == -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
+         formIsValid = false;
+         errors["email"] = "Email is not valid";
+       }
+  }  
+  
+  this.setState({errors: errors});
+  return formIsValid;
+  }
+
+
+
+
+
+contactSubmit(e){
+e.preventDefault();
+
+if(this.handleValidation()){
+  alert("Form submitted");
+}else{
+  alert("Form has errors.")
+}
+
+}
+
+handleChange(name, e){         
+// let fields = this.state.fields;
+// fields[field] = e.target.value;        
+// this.setState({fields});
+var change = {};
+change[name] = e.target.value;
+this.setState(change);
+
+
+}
+
+  render(){
+    const { title, user} = this.props;
+
+console.log(this.state)
+
+    return(
+
+      
+      <Card small className="mb-4">
     <CardHeader className="border-bottom">
       <h6 className="m-0">{title}</h6>
     </CardHeader>
@@ -28,23 +132,23 @@ const UserAccountDetails = ({ title }) => (
               <Row form>
                 {/* First Name */}
                 <Col md="6" className="form-group">
-                  <label htmlFor="feFirstName">First Name</label>
+                  <label htmlFor="feName">Name</label>
                   <FormInput
-                    id="feFirstName"
-                    placeholder="First Name"
-                    value="Sierra"
-                    onChange={() => {}}
-                  />
+                    id="feName"
+                    placeholder="Name"
+                    onChange={this.handleChange.bind(this, "name")} value={this.state.name}
+                    />
                 </Col>
                 {/* Last Name */}
                 <Col md="6" className="form-group">
-                  <label htmlFor="feLastName">Last Name</label>
+                  <label htmlFor="feLastName">Phone Number</label>
                   <FormInput
-                    id="feLastName"
-                    placeholder="Last Name"
-                    value="Brooks"
-                    onChange={() => {}}
-                  />
+                    id="fePhoneNumber"
+                    placeholder="Phone Number"
+                    value={user.phone}
+                    type="number"
+                    onChange={this.handleChange.bind(this, "number")} value={this.state.number}
+                    />
                 </Col>
               </Row>
               <Row form>
@@ -55,23 +159,23 @@ const UserAccountDetails = ({ title }) => (
                     type="email"
                     id="feEmail"
                     placeholder="Email Address"
-                    value="sierra@example.com"
-                    onChange={() => {}}
+                    value={this.state.email}
+                    onChange={this.handleChange.bind(this, "email")} 
                     autoComplete="email"
                   />
                 </Col>
                 {/* Password */}
-                <Col md="6" className="form-group">
+                {/* <Col md="6" className="form-group">
                   <label htmlFor="fePassword">Password</label>
                   <FormInput
-                    type="password"
+                  type="password"
                     id="fePassword"
                     placeholder="Password"
-                    value="EX@MPL#P@$$w0RD"
+                    value=""
                     onChange={() => {}}
                     autoComplete="current-password"
-                  />
-                </Col>
+                    />
+                  </Col> */}
               </Row>
               <FormGroup>
                 <label htmlFor="feAddress">Address</label>
@@ -79,26 +183,30 @@ const UserAccountDetails = ({ title }) => (
                   id="feAddress"
                   placeholder="Address"
                   value="1234 Main St."
-                  onChange={() => {}}
-                />
+                  onChange={this.handleChange.bind(this, "address")} 
+                  />
               </FormGroup>
               <Row form>
                 {/* City */}
                 <Col md="6" className="form-group">
-                  <label htmlFor="feCity">City</label>
+                  <label htmlFor="feCity">Country</label>
                   <FormInput
                     id="feCity"
-                    placeholder="City"
-                    onChange={() => {}}
-                  />
+                    placeholder="Country"
+                    value={this.state.country}
+                    onChange={this.handleChange.bind(this, "country")} 
+                    />
                 </Col>
                 {/* State */}
                 <Col md="4" className="form-group">
                   <label htmlFor="feInputState">State</label>
-                  <FormSelect id="feInputState">
-                    <option>Choose...</option>
-                    <option>...</option>
-                  </FormSelect>
+                  <FormInput
+                    id="feCity"
+                    placeholder="state"
+                    value={this.state.state}
+                    onChange={this.handleChange.bind(this, "state")} 
+
+                    />
                 </Col>
                 {/* Zip Code */}
                 <Col md="2" className="form-group">
@@ -106,7 +214,8 @@ const UserAccountDetails = ({ title }) => (
                   <FormInput
                     id="feZipCode"
                     placeholder="Zip"
-                    onChange={() => {}}
+                    onChange={this.handleChange.bind(this, "zip")} 
+                    
                   />
                 </Col>
               </Row>
@@ -124,7 +233,9 @@ const UserAccountDetails = ({ title }) => (
       </ListGroupItem>
     </ListGroup>
   </Card>
-);
+)
+}
+};
 
 UserAccountDetails.propTypes = {
   /**
@@ -137,4 +248,4 @@ UserAccountDetails.defaultProps = {
   title: "Account Details"
 };
 
-export default UserAccountDetails;
+

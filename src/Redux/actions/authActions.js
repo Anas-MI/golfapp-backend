@@ -18,21 +18,25 @@ export const registerUser = (userData, history) => dispatch => {
     );
 };
 
+//Set errors when trying to log in
 export const setErrorLogin = value => dispatch => {
   dispatch({type:SET_LOGIN_ERROR, payload: value})
 }
 
+
+
+
 // Login - get user token
 export const loginUser = userData => dispatch => {
-  console.log({userData})
+
   axios
     .post(loginUserApi, userData)
     .then(res => {
-
+      
       // Save to localStorage
       // Set token to localStorage
 
-      console.log({res})
+      
 
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
@@ -42,24 +46,18 @@ export const loginUser = userData => dispatch => {
 
       // Decode token to get user data
       const decoded = jwt_decode(token);
-      
-      const exp = new Date(decoded.exp * 1000)
-  
-if (exp < new Date().getTime()/1000) {
-    console.log("EXPIRED");
-} else {
-  console.log("NOT EXPIRED");
-
-}
       // Set current user
       dispatch(setCurrentUser(decoded));
     })
     .catch(err =>{
-      console.log({err})
+      
+      if(err.isAxiosError){
+        console.log({"ERROR":err.message})
+      } else {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })}
+      })}}
     );
 };
 
@@ -90,3 +88,5 @@ export const logoutUser = () => dispatch => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
 };
+
+
