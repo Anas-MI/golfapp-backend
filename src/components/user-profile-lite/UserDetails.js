@@ -1,5 +1,8 @@
-import React from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import axios from "axios";
+import  apiList from "../../services/apis/apiList"
 import {
   Card,
   CardHeader,
@@ -8,49 +11,86 @@ import {
   ListGroupItem,
   Progress
 } from "shards-react";
+import { Popconfirm, message} from 'antd';
+const {deleteUserApi} = apiList;
+class UserDetails extends Component{
+  
 
-const UserDetails = ({ userDetails }) => (
-  <Card small className="mb-4 pt-3">
+
+  confirm() {
+
+    const deleteUserUrl = deleteUserApi + this.props.auth.userToUpdate._id;
+    console.log({deleteUserUrl})
+    axios.delete(deleteUserUrl).then(res => {
+      console.log({res})
+      if(res.status === 200){
+      message.info('User Deleted');
+        setTimeout(() => {
+          // history.push("/users");
+          
+        }, 1000);}
+    }).catch(err => {
+      console.log({err})
+    })
+
+  }
+
+
+  
+  render(){
+    console.log({"FROM USER DETAILS":this.props.auth.userToUpdate})
+    
+    const text = 'Are you sure you want to delete this User?';
+    
+
+    return(<Card small className="mb-4 pt-3">
     <CardHeader className="border-bottom text-center">
       <div className="mb-3 mx-auto">
         <img
           className="rounded-circle"
-          src={userDetails.avatar}
-          alt={userDetails.name}
+          src={this.props.userDetails.avatar}
+          alt={this.props.userDetails.name}
           width="110"
         />
       </div>
-      <h4 className="mb-0">{userDetails.name}</h4>
-      <span className="text-muted d-block mb-2">{userDetails.jobTitle}</span>
-      <Button pill outline theme="danger" size="md" className="mb-2 ">
-        <i className="material-icons mr-1">delete</i> Delete
+      <h4 className="mb-0">{this.props.auth.userToUpdate.name}</h4>
+      <span className="text-muted d-block mb-2">User</span>
+      
+      <Popconfirm placement="right" title={text} onConfirm={this.confirm.bind(this)} okText="Yes" cancelText="No">
+        
+      <Button pill outline theme="danger" size="md"  className="mb-2 ">
+        <i className="material-icons ">delete</i>Delete 
       </Button>
+      </Popconfirm>
     </CardHeader>
     <ListGroup flush>
       <ListGroupItem className="px-4">
         <div className="progress-wrapper">
           <strong className="text-muted d-block mb-2">
-            {userDetails.performanceReportTitle}
+            {this.props.userDetails.performanceReportTitle}
           </strong>
           <Progress
             className="progress-sm"
-            value={userDetails.performanceReportValue}
+            value={this.props.userDetails.performanceReportValue}
           >
             <span className="progress-value">
-              {userDetails.performanceReportValue}%
+              {this.props.userDetails.performanceReportValue}%
             </span>
           </Progress>
         </div>
       </ListGroupItem>
       <ListGroupItem className="p-4">
         <strong className="text-muted d-block mb-2">
-          {userDetails.metaTitle}
+          {this.props.userDetails.metaTitle}
         </strong>
-        <span>{userDetails.metaValue}</span>
+        <span>{this.props.userDetails.metaValue}</span>
       </ListGroupItem>
     </ListGroup>
-  </Card>
-);
+  </Card>)
+  }}
+
+  
+;
 
 UserDetails.propTypes = {
   /**
@@ -72,4 +112,16 @@ UserDetails.defaultProps = {
   }
 };
 
-export default UserDetails;
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+
+export default connect(mapStateToProps)(
+  UserDetails
+);
+
+
+
+

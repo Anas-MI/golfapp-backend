@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import apiList from "../../services/apis/apiList";
 import axios from "axios";
+import { connect } from "react-redux";
+import { setUserToUpdate } from "../../Redux/actions/authActions";
 import { Tag, message } from "antd";
 import {
   validateEmail,
@@ -30,7 +32,7 @@ message.config({
   top: 80
 });
 
-export default class UserAccountDetails extends Component {
+ class UserAccountDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,6 +56,7 @@ export default class UserAccountDetails extends Component {
       .then(res => {
         if (res.status === 200) {
           this.setState({ ...res.data });
+          this.props.setUserToUpdate({name: this.state.name, _id: this.state.id})
         }
       })
       .catch(err => {
@@ -292,3 +295,12 @@ UserAccountDetails.propTypes = {
 UserAccountDetails.defaultProps = {
   title: "Account Details"
 };
+
+
+//Redux Stuff
+
+
+
+export default connect(null, { setUserToUpdate })(
+  UserAccountDetails
+);

@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, SET_LOGIN_ERROR  } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, SET_LOGIN_ERROR, SET_USER_TO_UPDATE } from "./types";
 import apiList from "../../services/apis/apiList"
 const {loginUserApi} = apiList;
 
@@ -23,6 +23,10 @@ export const setErrorLogin = value => dispatch => {
   dispatch({type:SET_LOGIN_ERROR, payload: value})
 }
 
+//Set Name & id to update User Details
+export const setUserToUpdate = value => dispatch => {
+  dispatch({type:SET_USER_TO_UPDATE, payload: value})
+}
 
 
 

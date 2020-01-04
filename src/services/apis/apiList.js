@@ -5,6 +5,7 @@ const apiList = {
   loginUserApi: `${baseUrl}/api/v1/authentication/login`,
   getAllUsersApi: `${baseUrl}/api/v1/users`,
   updateUserDetailsApi: `${baseUrl}/api/v1/users/update`,
-  getUserDetailsApi: `${baseUrl}/api/v1/users/`
+  getUserDetailsApi: `${baseUrl}/api/v1/users/`,
+  deleteUserApi:`${baseUrl}/api/v1/users/`
 };
 export default apiList;
