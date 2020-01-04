@@ -69,7 +69,7 @@ message.config({
     var change = {};
     change[name] = e.target.value;
     this.setState(change);
-
+    console.log(this.state)
     //Validations
 
     //Checking for name
@@ -273,7 +273,7 @@ message.config({
                   <Row form></Row>
                   <Button
                     theme="accent"
-                    disabled={this.state.enable}
+                    disabled={!this.state.enable}
                     onClick={this.submitForm.bind(this)}
                   >
                     Update Account

@@ -12,6 +12,11 @@ export default function() {
       to: "/users",
     },
     {
+      title: "Synergistic",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/synergistic",
+    },
+    {
       title: "Blog Posts",
       htmlBefore: '<i class="material-icons">vertical_split</i>',
       to: "/blog-posts",

@@ -14,11 +14,6 @@ export class UserProfile extends Component {
 
 
 
-
-  componentDidMount() {
-   
-  }
-
   render() {
     return (
       <Container fluid className="main-content-container px-4">

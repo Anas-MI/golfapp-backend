@@ -22,7 +22,7 @@ import UserProfileLite from "./views/UserProfileLite";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
-import Tables from "./views/Tables";
+import Users from "./views/Users";
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register";
 import Login from "./components/Login";
