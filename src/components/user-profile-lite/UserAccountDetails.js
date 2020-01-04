@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import apiList from "../../services/apis/apiList";
 import axios from "axios";
-import { Tag } from "antd";
+import { Tag, message } from "antd";
 import {
   validateEmail,
   validateName,
@@ -26,6 +26,10 @@ import {
   FormFeedback
 } from "shards-react";
 
+message.config({
+  top: 80
+});
+
 export default class UserAccountDetails extends Component {
   constructor(props) {
     super(props);
@@ -34,12 +38,16 @@ export default class UserAccountDetails extends Component {
       errors: {},
       nameError: false,
       emailError: false,
-      device: ""
+      device: "",
+      phone: "",
+      country: "",
+      state: "",
+      enable: false
     };
   }
 
   componentDidMount() {
-    const { updateUserDetailsApi, getUserDetailsApi } = apiList;
+    const { getUserDetailsApi } = apiList;
     const getUserDetailsRoute = getUserDetailsApi + `${this.props.slug}`;
     axios
       .get(getUserDetailsRoute)
@@ -86,25 +94,69 @@ export default class UserAccountDetails extends Component {
         this.setState({ validateNumber: false });
       }
     }
+
+    //Enable/disable form submit button
+    let { nameError, emailError, numberError } = this.state;
+    if (!nameError && !emailError && !numberError) {
+      this.setState({ enable: true });
+    } else {
+      this.setState({ enable: false });
+    }
   }
 
-  // submitForm(e){
-  //  e.preventDefault();
-  //  const data = {
-  //   firstName: this.state.firstName,
-  //   lastName: this.state.lastName,
-  //   email: this.state.email,
-  //   password: this.state.password
-  //  }
-  //  sendFormData(data).then(res=>{
-  //    if(res.status===200){
-  //      alert(res.data);
-  //      this.props.history.push('/');
-  //    }else{
+  submitForm(e) {
+    e.preventDefault();
+    let { nameError, emailError, numberError } = this.state;
+    if (!nameError && !emailError && !numberError) {
+      const key = "updatingDetails";
+      const openMessage = () => {
+        message.loading({ content: "Updating Details...", key });
+      };
+      openMessage();
+      const { updateUserDetailsApi } = apiList;
+      let {
+        _id,
+        name,
+        email,
+        number,
+        country,
+        state,
+        subscription
+      } = this.state;
 
-  //    }
-  //  });
-  // }
+      const body = {
+        name,
+        email,
+        phone: number,
+        country,
+        state,
+        id: _id,
+        // subscription,
+        ModifiedOn: Date.now()
+      };
+      console.log({ body });
+      axios
+        .post(updateUserDetailsApi, { ...body })
+        .then(res => {
+          if (res.status === 200) {
+            setTimeout(() => {
+              message.success({
+                content: "User Details Updated",
+                key,
+                duration: 3
+              });
+            }, 1000);
+
+            console.log({ res });
+          } else {
+            console.log({ res });
+          }
+        })
+        .catch(err => {
+          console.log({ err });
+        });
+    }
+  }
 
   render() {
     const { title, user } = this.props;
@@ -122,7 +174,6 @@ export default class UserAccountDetails extends Component {
               <Col>
                 <Form>
                   <Row form>
-                    {/* First Name */}
                     <Col md="6" className="form-group">
                       <label htmlFor="feName">Name</label>
                       <FormInput
@@ -138,9 +189,9 @@ export default class UserAccountDetails extends Component {
                         Oops, {this.state.nameErrorMsg}
                       </FormFeedback>
                     </Col>
-                    {/* Last Name */}
+
                     <Col md="6" className="form-group">
-                      <label htmlFor="feLastName">Phone Number</label>
+                      <label htmlFor="fePhoneNumber">Phone Number</label>
                       <FormInput
                         id="fePhoneNumber"
                         placeholder="Phone Number"
@@ -161,7 +212,6 @@ export default class UserAccountDetails extends Component {
                     </Col>
                   </Row>
                   <Row form>
-                    {/* Email */}
                     <Col md="6" className="form-group">
                       <label htmlFor="feEmail">Email</label>
                       <FormInput
@@ -218,7 +268,13 @@ export default class UserAccountDetails extends Component {
                     </Col>
                   </Row>
                   <Row form></Row>
-                  <Button theme="accent">Update Account</Button>
+                  <Button
+                    theme="accent"
+                    disabled={this.state.enable}
+                    onClick={this.submitForm.bind(this)}
+                  >
+                    Update Account
+                  </Button>
                 </Form>
               </Col>
             </Row>
