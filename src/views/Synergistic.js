@@ -173,9 +173,9 @@ export default class Synergistic extends Component {
         key: "x",
         render: (text, record) => (
             <div>
-          <Link to={`/synergy/view/${record.id}`}>Show</Link> 
+          <Link to={`/view/synergy/${record.id}`}>Show</Link> 
           <Divider type="vertical"/>
-          <Link to={`/synergy/edit/${record.id}`}>Edit</Link>
+          <Link to={`/edit/synergy/${record.id}`}>Edit</Link>
             </div>
         )
       }
