@@ -4,13 +4,7 @@ import apiList from "../services/apis/apiList";
 import axios from "axios";
 import { connect } from "react-redux";
 import { Tag, message, Input, Select } from "antd";
-import {
-  validateEmail,
-  validateName,
-  validateNumber,
-  validateState,
-  validateCountry
-} from "../utils/validations";
+
 import { Upload, Icon } from "antd";
 import {
   Card,
@@ -102,14 +96,7 @@ export default class SynergyEditForm extends Component {
     super(props);
     this.state = {
       fields: {},
-      errors: {},
-      nameError: false,
-      emailError: false,
-      device: "",
-      phone: "",
-      country: "",
-      state: "",
-      enable: false
+      
     };
   }
 
@@ -177,44 +164,54 @@ export default class SynergyEditForm extends Component {
     this.setState({day: value})
   }
 
+  deletePost(){
+
+  }
+
   submitForm(e) {
     e.preventDefault();
-    let { nameError, emailError, numberError } = this.state;
-    if (!nameError && !emailError && !numberError) {
       const key = "updatingDetails";
       const openMessage = () => {
-        message.loading({ content: "Updating Details...", key });
+        message.loading({ content: "Updating Post...", key });
       };
       openMessage();
-      const { updateUserDetailsApi } = apiList;
+      const { synergyUpdateApi } = apiList;
+      const synergyUpdateUrl = synergyUpdateApi + this.state._id
+      console.log(synergyUpdateUrl)
       let {
         _id,
         name,
-        email,
-        number,
-        country,
-        state,
-        subscription
+        goal,
+        explanation, 
+        nutritionTip, 
+        thoughts, 
+        thinkGolf, 
+        makeMeSmile, 
+        week,
+        day
       } = this.state;
 
       const body = {
+        _id,
         name,
-        email,
-        phone: number,
-        country,
-        state,
-        id: _id,
-        // subscription,
-        ModifiedOn: Date.now()
+        goal,
+        explanation, 
+        nutritionTip, 
+        thoughts, 
+        thinkGolf, 
+        makeMeSmile, 
+        week,
+        day
+
       };
       console.log({ body });
       axios
-        .post(updateUserDetailsApi, { ...body })
+        .post(synergyUpdateUrl, { ...body })
         .then(res => {
           if (res.status === 200) {
             setTimeout(() => {
               message.success({
-                content: "User Details Updated",
+                content: "Post Updated",
                 key,
                 duration: 3
               });
@@ -228,7 +225,7 @@ export default class SynergyEditForm extends Component {
         .catch(err => {
           console.log({ err });
         });
-    }
+    
   }
 
   render() {
@@ -260,7 +257,7 @@ export default class SynergyEditForm extends Component {
                       <TextArea placeholder="Name..  " 
                         onChange={this.handleChange.bind(this, "name")}
                         value={this.state.name}
-                      
+                        required={true}
                       autoSize />
                       {/* <FormFeedback valid>Name looks good!</FormFeedback>
                       <FormFeedback>
@@ -270,22 +267,15 @@ export default class SynergyEditForm extends Component {
                     <Col md="1"></Col>
                     <Col md="3" className="form-group">
                       <label htmlFor="feName">Week</label>
-                      {/* <FormInput
-                        id="feName"
-                        placeholder="Name"
+                      <FormInput
+                        id="feweek"
+                        placeholder="Week"
                         // valid={!this.state.nameError}
                         // invalid={this.state.nameError}
                         onChange={this.handleChange.bind(this, "week")}
                         value={this.state.week}
-                      /> */}
-                        <Select defaultValue={this.state.day}  onChange={this.handleSelect}>
-      <Option value="monday">Monday</Option>
-      <Option value="tuesday">Tuesday</Option>
-      <Option value="wednesday">Wednesday</Option>
-      <Option value="thursday">Thursday</Option>
-      <Option value="friday">Friday</Option>
-
-    </Select>
+                      />
+   
                       {/* <FormFeedback valid>Name looks good!</FormFeedback>
                       <FormFeedback>
                         Oops, {this.state.nameErrorMsg}
@@ -295,14 +285,15 @@ export default class SynergyEditForm extends Component {
 
                     <Col md="3" className="form-group">
                       <label htmlFor="feName">Day</label>
-                      <FormInput
-                        id="feName"
-                        placeholder="Name"
-                        // valid={!this.state.nameError}
-                        // invalid={this.state.nameError}
-                        onChange={this.handleChange.bind(this, "day")}
-                        value={this.state.day}
-                      />
+                      
+                                           <Select defaultValue={this.state.day}  onChange={this.handleSelect}>
+      <Option value="monday">Monday</Option>
+      <Option value="tuesday">Tuesday</Option>
+      <Option value="wednesday">Wednesday</Option>
+      <Option value="thursday">Thursday</Option>
+      <Option value="friday">Friday</Option>
+
+    </Select>
                       {/* <FormFeedback valid>Name looks good!</FormFeedback>
                       <FormFeedback>
                         Oops, {this.state.nameErrorMsg}
@@ -441,10 +432,18 @@ export default class SynergyEditForm extends Component {
                   <Row form></Row>
                   <Button
                     theme="accent"
-                    disabled={!this.state.enable}
+                  
                     onClick={this.submitForm.bind(this)}
                   >
-                    Update Account
+                    Update Post
+                  </Button>
+                  <Button 
+                    style={{"marginLeft": "10px"}}
+                    theme="danger"
+                  
+                    onClick={this.deletePost.bind(this)}
+                  >
+                    Delete Post
                   </Button>
                 </Form>
               </Col>
