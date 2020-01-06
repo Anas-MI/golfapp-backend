@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Tag, message, Input, Select } from "antd";
+import { Tag, message, Input, Select, Popconfirm } from "antd";
 
 import { Upload, Icon } from "antd";
 import {
@@ -102,7 +102,7 @@ export default class SynergyEditForm extends Component {
 
   componentDidMount() {
     const { synergyCommonApi } = apiList;
-    const getSynergyPost = synergyCommonApi + `5e1071502d23ca242cf8bca9`;
+    const getSynergyPost = synergyCommonApi + this.props.slug;
     axios
       .get(getSynergyPost)
       .then(res => {
@@ -228,12 +228,35 @@ export default class SynergyEditForm extends Component {
     
   }
 
+  confirm() {
+    const { synergyCommonApi } = apiList;
+    const deletePostUrl =  synergyCommonApi + this.state._id
+    console.log({ deletePostUrl });
+    axios
+      .delete(deletePostUrl)
+      .then(res => {
+        console.log({ res });
+        if (res.status === 200) {
+          message.info("Post Deleted");
+          setTimeout(() => {
+            window.location.href = "/synergistic";
+          }, 1000);
+        }
+      })
+      .catch(err => {
+        console.log({ err });
+      });
+    }
+
+
   render() {
     const { title, user } = this.props;
 
     console.log(this.state);
-
+    const text = "Are you sure you want to delete this Post?";
+    console.log(this.state.day)
     return (
+
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
           <h6 className="m-0">{title}</h6>
@@ -286,7 +309,7 @@ export default class SynergyEditForm extends Component {
                     <Col md="3" className="form-group">
                       <label htmlFor="feName">Day</label>
                       
-                                           <Select defaultValue={this.state.day}  onChange={this.handleSelect}>
+                                           <Select value={this.state.day}  onChange={this.handleSelect}>
       <Option value="monday">Monday</Option>
       <Option value="tuesday">Tuesday</Option>
       <Option value="wednesday">Wednesday</Option>
@@ -437,14 +460,23 @@ export default class SynergyEditForm extends Component {
                   >
                     Update Post
                   </Button>
+                  <Popconfirm
+            placement="right"
+            title={text}
+            onConfirm={this.confirm.bind(this)}
+            okText="Yes"
+            cancelText="No"
+          >
+            
                   <Button 
                     style={{"marginLeft": "10px"}}
                     theme="danger"
                   
                     onClick={this.deletePost.bind(this)}
                   >
-                    Delete Post
+                    <i className="material-icons ">delete</i>Delete Post
                   </Button>
+          </Popconfirm>
                 </Form>
               </Col>
             </Row>

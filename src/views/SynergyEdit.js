@@ -26,7 +26,7 @@ export class SynergyEdit extends Component {
         </Row>
         <Row>
           <Col lg="12">
-            <SynergyEditForm user={this.state.userData} slug={this.props.match.params.id}/>
+            <SynergyEditForm  user={this.state.userData} slug={this.props.match.params.id}/>
           </Col>
         </Row>
       </Container>
