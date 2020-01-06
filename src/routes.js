@@ -15,6 +15,9 @@ import Users from "./views/Users";
 
 //Synergistic
 import Synergistic from "./views/Synergistic"
+import SynergyPost from "./views/SynergyView"
+import SynergyEdit from "./views/SynergyEdit"
+
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
 import Login from "./components/Login"
@@ -41,6 +44,16 @@ export default [
     path: "/synergistic",
     layout: DefaultLayout,
     component: Synergistic
+  },
+  {
+    path:"/view/synergy/:id",
+    layout:DefaultLayout,
+    component:SynergyPost
+  },
+  {
+    path:"/edit/synergy/:id",
+    layout:DefaultLayout,
+    component:SynergyEdit
   },
   {
     path: "/add-new-post",
