@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
-import { connect } from "react-redux";
-import { Tag, message, Input, Select, Popconfirm } from "antd";
+import { message, Input, Select } from "antd";
 
 import { Upload, Icon } from "antd";
 import {
@@ -14,12 +12,8 @@ import {
   Row,
   Col,
   Form,
-  FormGroup,
   FormInput,
-  FormSelect,
-  FormTextarea,
-  Button,
-  FormFeedback
+  Button
 } from "shards-react";
 import { Modal } from "antd";
 
@@ -96,25 +90,21 @@ export default class SynergyCreateForm extends Component {
     super(props);
     this.state = {
       fields: {},
-      day:"monday"
+      day: "monday"
     };
   }
 
-  componentDidMount() {
-   
-  }
+  componentDidMount() {}
 
   handleChange(name, e) {
     var change = {};
     change[name] = e.target.value;
     this.setState(change);
-    console.log(this.state);
   }
 
   handleSelect = value => {
     this.setState({ day: value });
   };
-
 
   submitForm(e) {
     e.preventDefault();
@@ -147,7 +137,6 @@ export default class SynergyCreateForm extends Component {
       week,
       day
     };
-    console.log({ body });
     axios
       .post(synergyCreateApi, { ...body })
       .then(res => {
@@ -159,8 +148,7 @@ export default class SynergyCreateForm extends Component {
               duration: 3
             });
           }, 1000);
-          window.location.href = "/synergistic"
-          console.log({ res });
+          window.location.href = "/synergistic";
         } else {
           console.log({ res });
         }
@@ -170,14 +158,9 @@ export default class SynergyCreateForm extends Component {
       });
   }
 
-
-
   render() {
     const { title } = this.props;
 
-    console.log(this.state);
-
-    console.log(this.state.day);
     return (
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
