@@ -17,6 +17,16 @@ export default function() {
       to: "/synergistic",
     },
     {
+      title: "Journal",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/view/journal",
+    },
+    {
+      title: "Journal Feed",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/feed/journal",
+    },
+    {
       title: "Blog Posts",
       htmlBefore: '<i class="material-icons">vertical_split</i>',
       to: "/blog-posts",
