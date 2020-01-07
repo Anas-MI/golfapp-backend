@@ -3,10 +3,20 @@ import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { Row, Container, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import { Table, Input, Button, Icon, Tag, Divider } from "antd";
+import { Table, Input, Button, Icon, Tag, Divider,Popconfirm } from "antd";
+import { Modal } from 'antd';
 import apiList from "../services/apis/apiList";
 import axios from "axios";
-const { synergyGetAllApi } = apiList;
+const { journalGetAllApi } = apiList;
+const { TextArea } = Input;
+
+//Modal
+
+
+
+
+
+
 
 export default class Synergistic extends Component {
   constructor(props) {
@@ -14,27 +24,88 @@ export default class Synergistic extends Component {
     this.state = {
       searchText: "",
       searchedColumn: "",
-      synergyList: []
+      journalList: [],
+      visible: false,
+      confirmLoading: false,
+      disabled: true,
+      question:""
     };
   }
 
+  handleChange(name, e) {
+    var change = {};
+    change[name] = e.target.value;
+    this.setState(change);
+    
+    if(this.state.question.length < 3){
+        this.setState({disabled: true})
+} else if(this.state.question.length > 3){
+    this.setState({disabled: false})
+
+}
+  
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = () => {
+    this.setState({
+      ModalText: 'Saving...',
+      confirmLoading: true,
+    });
+    setTimeout(() => {
+
+           const { journalCreateApi } = apiList;
+
+        let {question} = this.state
+    axios
+      .post(journalCreateApi, {question})
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res)
+          this.setState({
+            visible: false,
+            confirmLoading: false,
+          });
+        }
+        window.location.reload();
+      })
+      .catch(err => {
+        console.log({ err });
+      });
+
+
+    
+    }, 1500);
+  };
+
+  handleCancel = () => {
+    console.log('Clicked cancel button');
+    this.setState({
+      visible: false,
+    });
+  };
+
   componentDidMount() {
     axios
-      .get(synergyGetAllApi)
+      .get(journalGetAllApi)
       .then(res => {
         if (res.status === 200) {
           
           if (res.data) {
-            this.synergyList = res.data.data.map((synergy, index) => ({
+            this.journalList = res.data.data.map((journal, index) => ({
               key: index + 1,
-              name: synergy.name ? synergy.name : "-",
-              goal: synergy.goal ? synergy.goal : "No Goal Given",
-              week: synergy.week ? synergy.week : "No Week Given",
-              day: synergy.day ? synergy.day : "No Day Given",
-              id: synergy._id ? synergy._id : "Not Found"
+              question: journal.question ? journal.question : "-",
+              id: journal._id ? journal._id : "Not Found"
+
             }));
 
-            this.setState({ synergyList: this.synergyList });
+            this.setState({ journalList: this.journalList });
+            
           
           }
         }
@@ -123,7 +194,33 @@ export default class Synergistic extends Component {
     this.setState({ searchText: "" });
   };
 
+  confirm(record, b) {
+      
+    const { journalCommonApi } = apiList;
+    const journalCommonApiUrl = journalCommonApi + "/delete/" + record.id;
+    console.log(journalCommonApiUrl)
+    axios
+      .delete(journalCommonApiUrl)
+      .then(res => {
+        console.log(res)
+
+        if (res.status === 200) {
+          
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000);
+        }
+      })
+      .catch(err => {
+        console.log({ err });
+      });
+  }
+
   render() {
+
+    const { visible, confirmLoading, ModalText } = this.state;
+   
+
     const columns = [
       {
         title: "No.",
@@ -133,49 +230,69 @@ export default class Synergistic extends Component {
         sorter: (a, b) => a.key - b.key
       },
       {
-        title: "Name",
-        dataIndex: "name",
-        key: "name",
-        width: "20%",
-        ...this.getColumnSearchProps("name")
+        title: "Question",
+        dataIndex: "question",
+        key: "question",
+        // width: "20%",
+        ...this.getColumnSearchProps("question")
       },
-      {
-        title: "Goal",
-        dataIndex: "goal",
-        key: "goal",
-        ...this.getColumnSearchProps("goal")
-      },
-      {
-        title: "Week",
-        dataIndex: "week",
-        key: "week",
-        sorter: (a, b) => a.key - b.key,
-        ...this.getColumnSearchProps("week")
-      },
-      {
-        title: "Day",
-        dataIndex: "day",
-        key: "day",
-        sorter: (a, b) => a.day.length - b.day.length,
-        render: tag => {
-          return (
-            <span>
-              <Tag color="volcano" key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            </span>
-          );
-        }
-      },
+    //   {
+    //     title: "Goal",
+    //     dataIndex: "goal",
+    //     key: "goal",
+    //     ...this.getColumnSearchProps("goal")
+    //   },
+    //   {
+    //     title: "Week",
+    //     dataIndex: "week",
+    //     key: "week",
+    //     sorter: (a, b) => a.key - b.key,
+    //     ...this.getColumnSearchProps("week")
+    //   },
+    //   {
+    //     title: "Day",
+    //     dataIndex: "day",
+    //     key: "day",
+    //     sorter: (a, b) => a.day.length - b.day.length,
+    //     render: tag => {
+    //       return (
+    //         <span>
+    //           <Tag color="volcano" key={tag}>
+    //             {tag.toUpperCase()}
+    //           </Tag>
+    //         </span>
+    //       );
+    //     }
+    //   },
       {
         title: "Action",
         dataIndex: "",
         key: "x",
         render: (text, record) => (
             <div>
-          <Link to={`/view/synergy/${record.id}`}>Show</Link> 
+                   <Popconfirm
+                    placement="right"
+                    title="Are you sure you want to delete this Question?"
+                    onConfirm={this.confirm.bind(this, record)}
+                    okText="Yes"
+                    cancelText="No"
+                  >
           <Divider type="vertical"/>
-          <Link to={`/edit/synergy/${record.id}`}>Edit</Link>
+           {/* <Link to={`/delete/synergy/${record.id}`}>Delete</Link> */}
+        
+            <Button
+                      style={{     height: "50px" }}
+                    //   theme="danger"
+                    className=" bg-danger text-white text-center rounded p-3"
+
+                    //   onClick={this.deletePost.bind(this)}
+                    >
+                      <i className="material-icons ">delete</i>Delete Question
+                    </Button>
+          <Divider type="vertical"/>
+
+                  </Popconfirm>
+       
             </div>
         )
       }
@@ -184,26 +301,50 @@ export default class Synergistic extends Component {
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
           <PageTitle
-            title="Synergistic"
+            title="Journal"
             subtitle="Fit For Golf"
             md="8"
             className="ml-sm-auto mr-sm-auto"
           />
           <Col className="md-4">
-          <Link to={`/create/synergy`}>
+          {/* <Link to={`/create/journal`}> */}
             
             
           <div
         className=" bg-dark text-white text-center rounded p-3"
-        
+        onClick={this.showModal}
         style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)", height: "50px", width: "237px", marginLeft: "261px"}}>
         Add New
       </div>
-            </Link> 
+            {/* </Link>  */}
+            <Modal
+          title="Add a New Question"
+          visible={visible}
+          onOk={this.handleOk}
+          confirmLoading={confirmLoading}
+          onCancel={this.handleCancel}
+          okText="Create"
+           okButtonProps= {{
+      disabled: this.state.disabled
+    }}
+        >
+            <Col md="12" className="form-group">
+        {/* <p>{ModalText}</p> */}
+        <label htmlFor="feQuestion">Question</label>
+
+        <TextArea
+          placeholder="Your Question..  "
+          onChange={this.handleChange.bind(this, "question")}
+          value={this.state.question}
+          required={true}
+          autoSize
+        />
+      </Col>
+        </Modal>
 
           </Col>
         </Row>
-        <Table columns={columns} dataSource={this.state.synergyList} />
+        <Table columns={columns} dataSource={this.state.journalList} />
       </Container>
     );
   }
