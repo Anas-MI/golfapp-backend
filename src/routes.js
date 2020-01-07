@@ -19,6 +19,11 @@ import SynergyPost from "./views/SynergyView"
 import SynergyEdit from "./views/SynergyEdit"
 import SynergyCreate from "./views/SynergyCreate"
 
+//Journal
+import JournalView from "./views/JournalView"
+import JournalFeed from "./views/JournalFeed"
+
+
 
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
@@ -61,6 +66,16 @@ export default [
     path:"/edit/synergy/:id",
     layout:DefaultLayout,
     component:SynergyEdit
+  },
+  {
+    path:"/view/journal",
+    layout:DefaultLayout,
+    component:JournalView
+  },
+  {
+    path:"/feed/journal",
+    layout:DefaultLayout,
+    component:JournalFeed
   },
   {
     path: "/add-new-post",
