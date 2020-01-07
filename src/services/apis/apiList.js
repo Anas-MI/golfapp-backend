@@ -10,7 +10,11 @@ const apiList = {
   synergyGetAllApi:`${baseUrl}/api/v1/synergistic/getall`,
   synergyCreateApi: `${baseUrl}/api/v1/synergistic/create`,
   synergyCommonApi: `${baseUrl}/api/v1/synergistic/`,
-  synergyUpdateApi: `${baseUrl}/api/v1/synergistic/update/`
+  synergyUpdateApi: `${baseUrl}/api/v1/synergistic/update/`,
+  journalGetAllApi:`${baseUrl}/api/v1/journal/getall/`,
+  journalCreateApi: `${baseUrl}/api/v1/journal/create`,
+  journalCommonApi: `${baseUrl}/api/v1/journal/`,
+  journalFeedGetAllApi: `${baseUrl}/api/v1/journal/feed/getall`,
 
 
 };
