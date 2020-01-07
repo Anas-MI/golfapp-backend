@@ -3,6 +3,7 @@ import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
+import {Link} from 'react-router-dom'
 import { Tag, message } from "antd";
 import { List, Avatar } from 'antd';
 message.config({
@@ -25,6 +26,7 @@ export default class SynergyPost extends Component {
       .then(res => {
         if (res.status === 200) {
           let data = res.data.data;
+          this.setState({synergyId: res.data.data._id})
           delete data["_id"]
           delete data["__v"]
          const finalData = Object.keys(data).map((key,value) => {
@@ -106,6 +108,8 @@ export default class SynergyPost extends Component {
 
   <Tag color="geekblue">{this.state.day}</Tag>
     <Tag color="magenta">WEEK: {this.state.week}</Tag>
+    <Link style={{"marginLeft": "59px"}}to={`/edit/synergy/${this.state.synergyId}`}>Edit</Link>
+
           </Col>
   {/* </Col> */}
         </Row>
