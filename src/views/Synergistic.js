@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
-import { Row, Container } from "shards-react";
+import { Row, Container, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import { Table, Input, Button, Icon, Tag, Divider } from "antd";
 import apiList from "../services/apis/apiList";
@@ -186,9 +186,22 @@ export default class Synergistic extends Component {
           <PageTitle
             title="Synergistic"
             subtitle="Fit For Golf"
-            md="12"
+            md="8"
             className="ml-sm-auto mr-sm-auto"
           />
+          <Col className="md-4">
+          <Link to={`/create/synergy`}>
+            
+            
+          <div
+        className=" bg-dark text-white text-center rounded p-3"
+        
+        style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)", height: "50px", width: "237px", marginLeft: "261px"}}>
+        Add New
+      </div>
+            </Link> 
+
+          </Col>
         </Row>
         <Table columns={columns} dataSource={this.state.synergyList} />
       </Container>
