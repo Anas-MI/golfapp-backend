@@ -95,8 +95,7 @@ export default class SynergyEditForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fields: {},
-      
+      fields: {}
     };
   }
 
@@ -109,8 +108,7 @@ export default class SynergyEditForm extends Component {
         if (res.status === 200) {
           this.setState({ ...res.data.data });
         }
-        console.log(this.state)
-
+        console.log(this.state);
       })
       .catch(err => {
         console.log({ "Something went wrong": err });
@@ -123,114 +121,75 @@ export default class SynergyEditForm extends Component {
     change[name] = e.target.value;
     this.setState(change);
     console.log(this.state);
-    //Validations
-
-    //Checking for name
-
-    // if (name === "name") {
-    //   //Returns nameError true or false depending upon the input
-
-    //   this.setState(validateName(e.target.value));
-    // }
-
-    // //Checking for email
-
-    // if (name === "email") {
-    //   //Returns emailError true or false depending upon the input
-
-    //   this.setState(validateEmail(e.target.value));
-    // }
-
-    // //Checking for phone number
-    // if (name === "number") {
-    //   if (name.length > 0) {
-    //     this.setState({ validateNumber: true });
-    //     this.setState(validateNumber(e.target.value));
-    //   } else {
-    //     this.setState({ validateNumber: false });
-    //   }
-    // }
-
-    // //Enable/disable form submit button
-    // let { nameError, emailError, numberError } = this.state;
-    // if (!nameError && !emailError && !numberError) {
-    //   this.setState({ enable: true });
-    // } else {
-    //   this.setState({ enable: false });
-    // }
   }
 
-  handleSelect = (value) => {
-    this.setState({day: value})
-  }
+  handleSelect = value => {
+    this.setState({ day: value });
+  };
 
-  deletePost(){
-
-  }
+  deletePost() {}
 
   submitForm(e) {
     e.preventDefault();
-      const key = "updatingDetails";
-      const openMessage = () => {
-        message.loading({ content: "Updating Post...", key });
-      };
-      openMessage();
-      const { synergyUpdateApi } = apiList;
-      const synergyUpdateUrl = synergyUpdateApi + this.state._id
-      console.log(synergyUpdateUrl)
-      let {
-        _id,
-        name,
-        goal,
-        explanation, 
-        nutritionTip, 
-        thoughts, 
-        thinkGolf, 
-        makeMeSmile, 
-        week,
-        day
-      } = this.state;
+    const key = "updatingDetails";
+    const openMessage = () => {
+      message.loading({ content: "Updating Post...", key });
+    };
+    openMessage();
+    const { synergyUpdateApi } = apiList;
+    const synergyUpdateUrl = synergyUpdateApi + this.state._id;
+    console.log(synergyUpdateUrl);
+    let {
+      _id,
+      name,
+      goal,
+      explanation,
+      nutritionTip,
+      thoughts,
+      thinkGolf,
+      makeMeSmile,
+      week,
+      day
+    } = this.state;
 
-      const body = {
-        _id,
-        name,
-        goal,
-        explanation, 
-        nutritionTip, 
-        thoughts, 
-        thinkGolf, 
-        makeMeSmile, 
-        week,
-        day
+    const body = {
+      _id,
+      name,
+      goal,
+      explanation,
+      nutritionTip,
+      thoughts,
+      thinkGolf,
+      makeMeSmile,
+      week,
+      day
+    };
+    console.log({ body });
+    axios
+      .post(synergyUpdateUrl, { ...body })
+      .then(res => {
+        if (res.status === 200) {
+          setTimeout(() => {
+            message.success({
+              content: "Post Updated",
+              key,
+              duration: 3
+            });
+          }, 1000);
 
-      };
-      console.log({ body });
-      axios
-        .post(synergyUpdateUrl, { ...body })
-        .then(res => {
-          if (res.status === 200) {
-            setTimeout(() => {
-              message.success({
-                content: "Post Updated",
-                key,
-                duration: 3
-              });
-            }, 1000);
-
-            console.log({ res });
-          } else {
-            console.log({ res });
-          }
-        })
-        .catch(err => {
-          console.log({ err });
-        });
-    
+          console.log({ res });
+        } else {
+          console.log({ res });
+        }
+      })
+      .catch(err => {
+        console.log({ err });
+      });
   }
 
   confirm() {
     const { synergyCommonApi } = apiList;
-    const deletePostUrl =  synergyCommonApi + this.state._id
+    const deletePostUrl = synergyCommonApi + "/delete/" + this.state._id;
     console.log({ deletePostUrl });
     axios
       .delete(deletePostUrl)
@@ -246,17 +205,15 @@ export default class SynergyEditForm extends Component {
       .catch(err => {
         console.log({ err });
       });
-    }
-
+  }
 
   render() {
-    const { title, user } = this.props;
+    const { title } = this.props;
 
     console.log(this.state);
     const text = "Are you sure you want to delete this Post?";
-    console.log(this.state.day)
+    console.log(this.state.day);
     return (
-
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
           <h6 className="m-0">{title}</h6>
@@ -269,23 +226,14 @@ export default class SynergyEditForm extends Component {
                   <Row form>
                     <Col md="4" className="form-group">
                       <label htmlFor="feName">Name</label>
-                      {/* <FormInput
-                        id="feName"
-                        placeholder="Name"
-                        // valid={!this.state.nameError}
-                        // invalid={this.state.nameError}
-                        onChange={this.handleChange.bind(this, "name")}
-                        value={this.state.name}
-                      /> */}
-                      <TextArea placeholder="Name..  " 
+
+                      <TextArea
+                        placeholder="Name..  "
                         onChange={this.handleChange.bind(this, "name")}
                         value={this.state.name}
                         required={true}
-                      autoSize />
-                      {/* <FormFeedback valid>Name looks good!</FormFeedback>
-                      <FormFeedback>
-                        Oops, {this.state.nameErrorMsg}
-                      </FormFeedback> */}
+                        autoSize
+                      />
                     </Col>
                     <Col md="1"></Col>
                     <Col md="3" className="form-group">
@@ -293,85 +241,46 @@ export default class SynergyEditForm extends Component {
                       <FormInput
                         id="feweek"
                         placeholder="Week"
-                        // valid={!this.state.nameError}
-                        // invalid={this.state.nameError}
                         onChange={this.handleChange.bind(this, "week")}
                         value={this.state.week}
                       />
-   
-                      {/* <FormFeedback valid>Name looks good!</FormFeedback>
-                      <FormFeedback>
-                        Oops, {this.state.nameErrorMsg}
-                      </FormFeedback> */}
                     </Col>
                     <Col md="1"></Col>
 
                     <Col md="3" className="form-group">
                       <label htmlFor="feName">Day</label>
-                      
-                                           <Select value={this.state.day}  onChange={this.handleSelect}>
-      <Option value="monday">Monday</Option>
-      <Option value="tuesday">Tuesday</Option>
-      <Option value="wednesday">Wednesday</Option>
-      <Option value="thursday">Thursday</Option>
-      <Option value="friday">Friday</Option>
 
-    </Select>
-                      {/* <FormFeedback valid>Name looks good!</FormFeedback>
-                      <FormFeedback>
-                        Oops, {this.state.nameErrorMsg}
-                      </FormFeedback> */}
+                      <Select
+                        value={this.state.day}
+                        onChange={this.handleSelect}
+                      >
+                        <Option value="monday">Monday</Option>
+                        <Option value="tuesday">Tuesday</Option>
+                        <Option value="wednesday">Wednesday</Option>
+                        <Option value="thursday">Thursday</Option>
+                        <Option value="friday">Friday</Option>
+                      </Select>
                     </Col>
 
                     <Col md="8" className="form-group">
                       <label htmlFor="fePhoneNumber">Goal</label>
-                      <TextArea placeholder="Goal...." 
+                      <TextArea
+                        placeholder="Goal...."
                         onChange={this.handleChange.bind(this, "goal")}
                         value={this.state.goal}
-                      
-                      autoSize />
-
-                      {/* <FormInput
-                        id="fePhoneNumber"
-                        placeholder="Phone Number"
-                        value={user.phone}
-                        type="number"
-                        maximum={12}
-                        valid={
-                          !this.state.numberError && this.state.validateNumber
-                        }
-                        invalid={this.state.numberError}
-                        onChange={this.handleChange.bind(this, "number")}
-                        value={this.state.number}
-                      /> */}
-                      {/* <FormFeedback valid>Number looks good!</FormFeedback>
-                      <FormFeedback>
-                        Oops, {this.state.numberErrorMsg}
-                      </FormFeedback> */}
+                        autoSize
+                      />
                     </Col>
                   </Row>
                   <Row form>
                     <Col md="8" className="form-group">
                       <label htmlFor="feEmail">Nutrition Tip</label>
-                      <TextArea placeholder="Nutrition Tip..  " 
+                      <TextArea
+                        placeholder="Nutrition Tip..  "
                         onChange={this.handleChange.bind(this, "nutritionTip")}
                         value={this.state.nutritionTip}
-                      
-                      autoSize />
-                      {/* <FormInput
-                        type="email"
-                        id="feEmail"
-                        placeholder="Email Address"
-                        valid={!this.state.emailError}
-                        invalid={this.state.emailError}
-                        value={this.state.email}
-                        onChange={this.handleChange.bind(this, "email")}
-                        autoComplete="email"
+                        autoSize
                       />
-                      <FormFeedback valid>Email looks good!</FormFeedback>
-                      <FormFeedback>
-                        Oops, {this.state.emailErrorMsg}
-                      </FormFeedback> */}
                     </Col>
                     <Col md="2"></Col>
                     <Col md="2">
@@ -381,102 +290,56 @@ export default class SynergyEditForm extends Component {
                   <Row form>
                     <Col md="8" className="form-group">
                       <label htmlFor="feEmail">Thoughts</label>
-                      <TextArea placeholder="Thoughts..  "
+                      <TextArea
+                        placeholder="Thoughts..  "
                         onChange={this.handleChange.bind(this, "thoughts")}
                         value={this.state.thoughts}
-                      
-                      autoSize />
-                      {/* <FormInput
-                        type="email"
-                        id="feEmail"
-                        placeholder="Email Address"
-                        valid={!this.state.emailError}
-                        invalid={this.state.emailError}
-                        value={this.state.email}
-                        onChange={this.handleChange.bind(this, "email")}
-                        autoComplete="email"
+                        autoSize
                       />
-                      <FormFeedback valid>Email looks good!</FormFeedback>
-                      <FormFeedback>
-                        Oops, {this.state.emailErrorMsg}
-                      </FormFeedback> */}
                     </Col>
                   </Row>
                   <Row form>
                     <Col md="8" className="form-group">
                       <label htmlFor="feEmail">Think golf</label>
-                      <TextArea placeholder="Think golf..  "
+                      <TextArea
+                        placeholder="Think golf..  "
                         value={this.state.thinkGolf}
-
                         onChange={this.handleChange.bind(this, "thinkGolf")}
-                      
-                      autoSize />
-                      {/* <FormInput
-                        type="email"
-                        id="feEmail"
-                        placeholder="Email Address"
-                        valid={!this.state.emailError}
-                        invalid={this.state.emailError}
-                        value={this.state.email}
-                        onChange={this.handleChange.bind(this, "email")}
-                        autoComplete="email"
+                        autoSize
                       />
-                      <FormFeedback valid>Email looks good!</FormFeedback>
-                      <FormFeedback>
-                        Oops, {this.state.emailErrorMsg}
-                      </FormFeedback> */}
                     </Col>
                   </Row>
                   <Row form>
                     <Col md="8" className="form-group">
                       <label htmlFor="feEmail">Make me smile</label>
-                      <TextArea placeholder="Make me smile..  " 
+                      <TextArea
+                        placeholder="Make me smile..  "
                         onChange={this.handleChange.bind(this, "makeMeSmile")}
                         value={this.state.makeMeSmile}
-                      
-                      autoSize />
-                      {/* <FormInput
-                        type="email"
-                        id="feEmail"
-                        placeholder="Email Address"
-                        valid={!this.state.emailError}
-                        invalid={this.state.emailError}
-                        value={this.state.email}
-                        onChange={this.handleChange.bind(this, "email")}
-                        autoComplete="email"
+                        autoSize
                       />
-                      <FormFeedback valid>Email looks good!</FormFeedback>
-                      <FormFeedback>
-                        Oops, {this.state.emailErrorMsg}
-                      </FormFeedback> */}
                     </Col>
                   </Row>
 
                   <Row form></Row>
-                  <Button
-                    theme="accent"
-                  
-                    onClick={this.submitForm.bind(this)}
-                  >
+                  <Button theme="accent" onClick={this.submitForm.bind(this)}>
                     Update Post
                   </Button>
                   <Popconfirm
-            placement="right"
-            title={text}
-            onConfirm={this.confirm.bind(this)}
-            okText="Yes"
-            cancelText="No"
-          >
-            
-                  <Button 
-                    style={{"marginLeft": "10px"}}
-                    theme="danger"
-                  
-                    onClick={this.deletePost.bind(this)}
+                    placement="right"
+                    title={text}
+                    onConfirm={this.confirm.bind(this)}
+                    okText="Yes"
+                    cancelText="No"
                   >
-                    <i className="material-icons ">delete</i>Delete Post
-                  </Button>
-          </Popconfirm>
+                    <Button
+                      style={{ marginLeft: "10px" }}
+                      theme="danger"
+                      onClick={this.deletePost.bind(this)}
+                    >
+                      <i className="material-icons ">delete</i>Delete Post
+                    </Button>
+                  </Popconfirm>
                 </Form>
               </Col>
             </Row>
