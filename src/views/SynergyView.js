@@ -111,7 +111,7 @@ export default class SynergyPost extends Component {
     <Link style={{"marginLeft": "59px"}}to={`/edit/synergy/${this.state.synergyId}`}>Edit</Link>
 
           </Col>
-  {/* </Col> */}
+
         </Row>
         <Row>
           <Col lg="12">
