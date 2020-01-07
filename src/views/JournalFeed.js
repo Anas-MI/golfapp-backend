@@ -1,20 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
-import { Row, Container, Col } from "shards-react";
+import { Row, Container } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import { Table, Input, Button, Icon, Tag, Divider } from "antd";
+import { Table, Input, Button, Icon, Tag } from "antd";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
-import {  Badge, Menu, Dropdown } from 'antd';
 const { journalFeedGetAllApi } = apiList;
-
-
-
-
-
-
-
 
 export default class Synergistic extends Component {
   constructor(props) {
@@ -26,40 +17,38 @@ export default class Synergistic extends Component {
     };
   }
 
-//Ant design nested table code begins
-
-
-
-
   componentDidMount() {
-
     function convertTime(serverdate) {
-        var date = new Date(serverdate);
-        // convert to utc time
-        var toutc = date.toUTCString();
-        //convert to local time
-        var locdat = new Date(toutc + " UTC");
-        return locdat;
+      var date = new Date(serverdate);
+      // convert to utc time
+      var toutc = date.toUTCString();
+      //convert to local time
+      var locdat = new Date(toutc + " UTC");
+      return locdat;
     }
 
     axios
       .get(journalFeedGetAllApi)
       .then(res => {
         if (res.status === 200) {
-          
           if (res.data) {
             this.journalList = res.data.data.map((journalFeed, index) => ({
               key: index + 1,
               name: journalFeed.user.name ? journalFeed.user.name : "-",
-              email: journalFeed.user.email ? journalFeed.user.email : "No Email Given",
+              email: journalFeed.user.email
+                ? journalFeed.user.email
+                : "No Email Given",
               week: journalFeed.week ? journalFeed.week : "No Week Given",
-              createdAt: journalFeed.createdAt ? convertTime(journalFeed.createdAt).toString()  : "No Date Given",
+              createdAt: journalFeed.createdAt
+                ? convertTime(journalFeed.createdAt).toString()
+                : "No Date Given",
               id: journalFeed._id ? journalFeed._id : "Not Found",
-              journalFeed: journalFeed.journalFeed ? journalFeed.journalFeed : []
+              journalFeed: journalFeed.journalFeed
+                ? journalFeed.journalFeed
+                : []
             }));
 
             this.setState({ journalFeedList: this.journalList });
-          console.log(this.state.journalFeedList)
           }
         }
       })
@@ -148,41 +137,18 @@ export default class Synergistic extends Component {
   };
 
   render() {
+    const expandedRowRender = record => {
+      let singleJournal = record.journalFeed.map(journal => {
+        return (
+          <div>
+            <h5 style={{ fontWeight: "700" }}>{journal.question}</h5>
+            <p>{journal.answer}</p>
+          </div>
+        );
+      });
 
-
-    
-    
-        const expandedRowRender = (record) => {
-           
-           
-           let singleJournal = record.journalFeed.map(journal => {
-               return <div>
-           <h5 style={{fontWeight: "700"}}>{journal.question}</h5>
-           <p>{journal.answer}</p>
-               </div>
-           })
-           
-            console.log({singleJournal})
-         
-        
-    
-    
-        //   return <Table columns={columns} dataSource={data} pagination={false} />;
-        return singleJournal
-        }
-    
-    
-
-
-
-
-
-
-
-
-
-
-
+      return singleJournal;
+    };
 
     const columns = [
       {
@@ -226,8 +192,7 @@ export default class Synergistic extends Component {
             </span>
           );
         }
-      },
-
+      }
     ];
     return (
       <Container fluid className="main-content-container px-4">
@@ -238,11 +203,13 @@ export default class Synergistic extends Component {
             md="12"
             className="ml-sm-auto mr-sm-auto"
           />
-          
         </Row>
-        <Table columns={columns} expandedRowRender={expandedRowRender} dataSource={this.state.journalFeedList} />
+        <Table
+          columns={columns}
+          expandedRowRender={expandedRowRender}
+          dataSource={this.state.journalFeedList}
+        />
       </Container>
     );
   }
 }
-    
