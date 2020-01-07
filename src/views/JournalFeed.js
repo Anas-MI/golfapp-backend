@@ -6,7 +6,15 @@ import PageTitle from "../components/common/PageTitle";
 import { Table, Input, Button, Icon, Tag, Divider } from "antd";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
-const { synergyGetAllApi } = apiList;
+import {  Badge, Menu, Dropdown } from 'antd';
+const { journalFeedGetAllApi } = apiList;
+
+
+
+
+
+
+
 
 export default class Synergistic extends Component {
   constructor(props) {
@@ -14,28 +22,44 @@ export default class Synergistic extends Component {
     this.state = {
       searchText: "",
       searchedColumn: "",
-      synergyList: []
+      journalFeedList: []
     };
   }
 
+//Ant design nested table code begins
+
+
+
+
   componentDidMount() {
+
+    function convertTime(serverdate) {
+        var date = new Date(serverdate);
+        // convert to utc time
+        var toutc = date.toUTCString();
+        //convert to local time
+        var locdat = new Date(toutc + " UTC");
+        return locdat;
+    }
+
     axios
-      .get(synergyGetAllApi)
+      .get(journalFeedGetAllApi)
       .then(res => {
         if (res.status === 200) {
           
           if (res.data) {
-            this.synergyList = res.data.data.map((synergy, index) => ({
+            this.journalList = res.data.data.map((journalFeed, index) => ({
               key: index + 1,
-              name: synergy.name ? synergy.name : "-",
-              goal: synergy.goal ? synergy.goal : "No Goal Given",
-              week: synergy.week ? synergy.week : "No Week Given",
-              day: synergy.day ? synergy.day : "No Day Given",
-              id: synergy._id ? synergy._id : "Not Found"
+              name: journalFeed.user.name ? journalFeed.user.name : "-",
+              email: journalFeed.user.email ? journalFeed.user.email : "No Email Given",
+              week: journalFeed.week ? journalFeed.week : "No Week Given",
+              createdAt: journalFeed.createdAt ? convertTime(journalFeed.createdAt).toString()  : "No Date Given",
+              id: journalFeed._id ? journalFeed._id : "Not Found",
+              journalFeed: journalFeed.journalFeed ? journalFeed.journalFeed : []
             }));
 
-            this.setState({ synergyList: this.synergyList });
-          
+            this.setState({ journalFeedList: this.journalList });
+          console.log(this.state.journalFeedList)
           }
         }
       })
@@ -124,6 +148,42 @@ export default class Synergistic extends Component {
   };
 
   render() {
+
+
+    
+    
+        const expandedRowRender = (record) => {
+           
+           
+           let singleJournal = record.journalFeed.map(journal => {
+               return <div>
+           <h5 style={{fontWeight: "700"}}>{journal.question}</h5>
+           <p>{journal.answer}</p>
+               </div>
+           })
+           
+            console.log({singleJournal})
+         
+        
+    
+    
+        //   return <Table columns={columns} dataSource={data} pagination={false} />;
+        return singleJournal
+        }
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
     const columns = [
       {
         title: "No.",
@@ -140,10 +200,10 @@ export default class Synergistic extends Component {
         ...this.getColumnSearchProps("name")
       },
       {
-        title: "Goal",
-        dataIndex: "goal",
-        key: "goal",
-        ...this.getColumnSearchProps("goal")
+        title: "Email",
+        dataIndex: "email",
+        key: "email",
+        ...this.getColumnSearchProps("email")
       },
       {
         title: "Week",
@@ -153,58 +213,36 @@ export default class Synergistic extends Component {
         ...this.getColumnSearchProps("week")
       },
       {
-        title: "Day",
-        dataIndex: "day",
-        key: "day",
-        sorter: (a, b) => a.day.length - b.day.length,
+        title: "Created At",
+        dataIndex: "createdAt",
+        key: "createdAt",
+        sorter: (a, b) => a.createdAt.length - b.createdAt.length,
         render: tag => {
           return (
             <span>
               <Tag color="volcano" key={tag}>
-                {tag.toUpperCase()}
+                {tag}
               </Tag>
             </span>
           );
         }
       },
-      {
-        title: "Action",
-        dataIndex: "",
-        key: "x",
-        render: (text, record) => (
-            <div>
-          <Link to={`/view/synergy/${record.id}`}>Show</Link> 
-          <Divider type="vertical"/>
-          <Link to={`/edit/synergy/${record.id}`}>Edit</Link>
-            </div>
-        )
-      }
+
     ];
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
           <PageTitle
-            title="Synergistic"
+            title="Journal Feed"
             subtitle="Fit For Golf"
-            md="8"
+            md="12"
             className="ml-sm-auto mr-sm-auto"
           />
-          <Col className="md-4">
-          <Link to={`/create/synergy`}>
-            
-            
-          <div
-        className=" bg-dark text-white text-center rounded p-3"
-        
-        style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)", height: "50px", width: "237px", marginLeft: "261px"}}>
-        Add New
-      </div>
-            </Link> 
-
-          </Col>
+          
         </Row>
-        <Table columns={columns} dataSource={this.state.synergyList} />
+        <Table columns={columns} expandedRowRender={expandedRowRender} dataSource={this.state.journalFeedList} />
       </Container>
     );
   }
 }
+    
