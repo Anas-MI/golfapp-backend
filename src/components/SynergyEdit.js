@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
-import { connect } from "react-redux";
-import { Tag, message, Input, Select, Popconfirm } from "antd";
+import { message, Input, Select, Popconfirm } from "antd";
 
 import { Upload, Icon } from "antd";
 import {
@@ -14,12 +12,8 @@ import {
   Row,
   Col,
   Form,
-  FormGroup,
   FormInput,
-  FormSelect,
-  FormTextarea,
-  Button,
-  FormFeedback
+  Button
 } from "shards-react";
 import { Modal } from "antd";
 
@@ -108,19 +102,16 @@ export default class SynergyEditForm extends Component {
         if (res.status === 200) {
           this.setState({ ...res.data.data });
         }
-        console.log(this.state);
       })
       .catch(err => {
         console.log({ "Something went wrong": err });
       });
-    // axios.post(updateUserDetailsApi, userData).then().catch()
   }
 
   handleChange(name, e) {
     var change = {};
     change[name] = e.target.value;
     this.setState(change);
-    console.log(this.state);
   }
 
   handleSelect = value => {
@@ -164,7 +155,7 @@ export default class SynergyEditForm extends Component {
       week,
       day
     };
-    console.log({ body });
+
     axios
       .post(synergyUpdateUrl, { ...body })
       .then(res => {
@@ -176,8 +167,6 @@ export default class SynergyEditForm extends Component {
               duration: 3
             });
           }, 1000);
-
-          console.log({ res });
         } else {
           console.log({ res });
         }
@@ -190,11 +179,10 @@ export default class SynergyEditForm extends Component {
   confirm() {
     const { synergyCommonApi } = apiList;
     const deletePostUrl = synergyCommonApi + "/delete/" + this.state._id;
-    console.log({ deletePostUrl });
+
     axios
       .delete(deletePostUrl)
       .then(res => {
-        console.log({ res });
         if (res.status === 200) {
           message.info("Post Deleted");
           setTimeout(() => {
@@ -210,9 +198,8 @@ export default class SynergyEditForm extends Component {
   render() {
     const { title } = this.props;
 
-    console.log(this.state);
     const text = "Are you sure you want to delete this Post?";
-    console.log(this.state.day);
+
     return (
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
