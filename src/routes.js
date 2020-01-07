@@ -17,6 +17,8 @@ import Users from "./views/Users";
 import Synergistic from "./views/Synergistic"
 import SynergyPost from "./views/SynergyView"
 import SynergyEdit from "./views/SynergyEdit"
+import SynergyCreate from "./views/SynergyCreate"
+
 
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
@@ -49,6 +51,11 @@ export default [
     path:"/view/synergy/:id",
     layout:DefaultLayout,
     component:SynergyPost
+  },
+  {
+    path:"/create/synergy",
+    layout:DefaultLayout,
+    component:SynergyCreate
   },
   {
     path:"/edit/synergy/:id",
