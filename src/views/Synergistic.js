@@ -23,7 +23,7 @@ export default class Synergistic extends Component {
       .get(synergyGetAllApi)
       .then(res => {
         if (res.status === 200) {
-          console.log(res);
+          
           if (res.data) {
             this.synergyList = res.data.data.map((synergy, index) => ({
               key: index + 1,
@@ -35,7 +35,7 @@ export default class Synergistic extends Component {
             }));
 
             this.setState({ synergyList: this.synergyList });
-            console.log(this.state);
+          
           }
         }
       })
