@@ -25,6 +25,10 @@ export default function() {
       title: "Journal Feed",
       htmlBefore: '<i class="material-icons">table_chart</i>',
       to: "/feed/journal",
+    },{
+      title: "Favorites",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/favorites",
     },
     {
       title: "Blog Posts",

@@ -23,7 +23,8 @@ import SynergyCreate from "./views/SynergyCreate"
 import JournalView from "./views/JournalView"
 import JournalFeed from "./views/JournalFeed"
 
-
+//Favorites
+import Favorites from "./views/Favorites"
 
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
@@ -76,6 +77,11 @@ export default [
     path:"/feed/journal",
     layout:DefaultLayout,
     component:JournalFeed
+  },
+  {
+    path:"/favorites",
+    layout:DefaultLayout,
+    component:Favorites
   },
   {
     path: "/add-new-post",

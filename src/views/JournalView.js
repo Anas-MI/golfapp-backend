@@ -214,7 +214,7 @@ export default class Synergistic extends Component {
         key: "question",
         // width: "20%",
         ...this.getColumnSearchProps("question")
-      }
+      },
       {
         title: "Action",
         dataIndex: "",
