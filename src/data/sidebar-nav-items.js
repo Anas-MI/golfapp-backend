@@ -29,6 +29,10 @@ export default function() {
       title: "Favorites",
       htmlBefore: '<i class="material-icons">table_chart</i>',
       to: "/favorites",
+    },{
+      title: "About Us",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/aboutus",
     },
     {
       title: "Blog Posts",

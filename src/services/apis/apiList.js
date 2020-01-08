@@ -15,7 +15,8 @@ const apiList = {
   journalCreateApi: `${baseUrl}/api/v1/journal/create`,
   journalCommonApi: `${baseUrl}/api/v1/journal/`,
   journalFeedGetAllApi: `${baseUrl}/api/v1/journal/feed/getall`,
-  favoritesGetAllApi: `${baseUrl}/api/v1/favorites/getall`
-
+  favoritesGetAllApi: `${baseUrl}/api/v1/favorites/getall`,
+  getAboutUs:`${baseUrl}/api/v1/aboutus/getall`,
+  updateAboutUs: `${baseUrl}/api/v1/aboutus/update/`
 };
 export default apiList;

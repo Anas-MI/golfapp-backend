@@ -26,6 +26,9 @@ import JournalFeed from "./views/JournalFeed"
 //Favorites
 import Favorites from "./views/Favorites"
 
+//About Us
+import AboutUs from "./views/AboutUs"
+
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
 import Login from "./components/Login"
@@ -82,6 +85,11 @@ export default [
     path:"/favorites",
     layout:DefaultLayout,
     component:Favorites
+  },
+  {
+    path:"/aboutus",
+    layout:DefaultLayout,
+    component:AboutUs
   },
   {
     path: "/add-new-post",
