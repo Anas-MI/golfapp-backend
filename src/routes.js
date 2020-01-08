@@ -29,6 +29,14 @@ import Favorites from "./views/Favorites"
 //About Us
 import AboutUs from "./views/AboutUs"
 
+//How it works
+import HowItWorks from "./views/HowItWorks"
+
+
+//Workout
+import Workout from "./views/Workout"
+import WorkoutEdit from "./views/WorkoutEdit"
+
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
 import Login from "./components/Login"
@@ -72,6 +80,11 @@ export default [
     component:SynergyEdit
   },
   {
+    path:"/edit/workout/:id",
+    layout:DefaultLayout,
+    component:WorkoutEdit
+  },
+  {
     path:"/view/journal",
     layout:DefaultLayout,
     component:JournalView
@@ -90,6 +103,14 @@ export default [
     path:"/aboutus",
     layout:DefaultLayout,
     component:AboutUs
+  },{
+    path:"/howitworks",
+    layout:DefaultLayout,
+    component:HowItWorks
+  },{
+    path:"/workout",
+    layout:DefaultLayout,
+    component:Workout
   },
   {
     path: "/add-new-post",

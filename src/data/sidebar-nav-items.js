@@ -33,6 +33,14 @@ export default function() {
       title: "About Us",
       htmlBefore: '<i class="material-icons">table_chart</i>',
       to: "/aboutus",
+    },{
+      title: "How it works",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/howitworks",
+    },{
+      title: "Workout",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/workout",
     },
     {
       title: "Blog Posts",

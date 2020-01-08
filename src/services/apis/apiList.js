@@ -17,6 +17,14 @@ const apiList = {
   journalFeedGetAllApi: `${baseUrl}/api/v1/journal/feed/getall`,
   favoritesGetAllApi: `${baseUrl}/api/v1/favorites/getall`,
   getAboutUs:`${baseUrl}/api/v1/aboutus/getall`,
-  updateAboutUs: `${baseUrl}/api/v1/aboutus/update/`
+  updateAboutUs: `${baseUrl}/api/v1/aboutus/update/`,
+  getHowItWorks:`${baseUrl}/api/v1/howitworks/getall`,
+  updateHowItWorks: `${baseUrl}/api/v1/howitworks/update/`,
+  workoutGetAll:`${baseUrl}/api/v1/workout/getall/`,
+  updateWorkOut:`${baseUrl}/api/v1/workout/update/`,
+  commonWorkOut: `${baseUrl}/api/v1/workout/`,
+  changeWorkout: `${baseUrl}/api/v1/workout/change/`,
+
+
 };
 export default apiList;

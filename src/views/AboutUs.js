@@ -7,7 +7,7 @@ export class AboutUs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: {}
+   
     };
   }
 
@@ -26,7 +26,7 @@ export class AboutUs extends Component {
         </Row>
         <Row>
           <Col lg="12">
-            <AboutUsForm  user={this.state.userData} slug={this.props.match.params.id}/>
+            <AboutUsForm  />
           </Col>
         </Row>
       </Container>
