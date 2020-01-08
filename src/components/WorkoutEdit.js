@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
-import { message, Input, Select, Popconfirm, Switch } from "antd";
+import { message, Input, Select, Popconfirm, Switch,Tag } from "antd";
 
 import { Upload, Icon } from "antd";
 import {
@@ -36,13 +36,25 @@ export default class WorkoutEditForm extends Component {
   }
 
   componentDidMount() {
+
+   
+      function convertTime(serverdate) {
+        var date = new Date(serverdate);
+        // convert to utc time
+        var toutc = date.toUTCString();
+        //convert to local time
+        var locdat = new Date(toutc + " UTC");
+        return locdat;
+      }
+  
+
     const { commonWorkOut } = apiList;
     const getWorkout = commonWorkOut + this.props.slug;
     axios
       .get(getWorkout)
       .then(res => {
         if (res.status === 200) {
-          this.setState({ ...res.data.data });
+          this.setState({ ...res.data.data, updatedAt:convertTime(res.data.data.updatedAt).toString() });
         }
         console.log(this.state)
       })
@@ -221,7 +233,15 @@ export default class WorkoutEditForm extends Component {
                
                 
 
-                  <Row form></Row>
+                  <Row form>
+                    <Col md="4">
+                    <label htmlFor="feEmail">Last Updated At: </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+
+                    <Tag color="green">{this.state.updatedAt}</Tag>
+                    </Col>
+                  
+                  </Row>
+                  <br/>
                   <Button theme="accent" onClick={this.submitForm.bind(this)}>
                     Update Workout
                   </Button>

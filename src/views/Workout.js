@@ -207,9 +207,11 @@ export default class Workout extends Component {
         key: "x",
         render: (text, record) => (
             <div>
-          <Link to={`/view/workout/${record.id}`}>Show</Link> 
+         
           <Divider type="vertical"/>
           <Link to={`/edit/workout/${record.id}`}>Edit</Link>
+          <Divider type="vertical"/>
+         
             </div>
         )
       }
