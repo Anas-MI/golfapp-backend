@@ -138,11 +138,16 @@ export default class Synergistic extends Component {
 
   render() {
     const expandedRowRender = record => {
-      let singleJournal = record.journalFeed.map(journal => {
+      
+      let singleJournal = Object.keys(record.journalFeed).map(journal => {
+        console.log(
+  {journal}
+        )
+        let value = record.journalFeed[journal];
         return (
           <div>
-            <h5 style={{ fontWeight: "700" }}>{journal.question}</h5>
-            <p>{journal.answer}</p>
+            <h5 style={{ fontWeight: "700" }}>{journal}</h5>
+            <p>{value}</p>
           </div>
         );
       });
