@@ -252,21 +252,21 @@ export default class Synergistic extends Component {
           <PageTitle
             title="Journal"
             subtitle="Fit For Golf"
-            md="8"
+            md="10"
             className="ml-sm-auto mr-sm-auto"
           />
-          <Col className="md-4">
+          <Col className="col-md-2">
           
 
             <div
               className=" bg-dark text-white text-center rounded p-3"
               onClick={this.showModal}
-              style={{
-                boxShadow: "inset 0 0 5px rgba(0,0,0,.2)",
-                height: "50px",
-                width: "237px",
-                marginLeft: "261px"
-              }}
+              // style={{
+              //   boxShadow: "inset 0 0 5px rgba(0,0,0,.2)",
+              //   height: "50px",
+              //   width: "237px",
+              //   marginLeft: "261px"
+              // }}
             >
               Add New
             </div>
@@ -297,7 +297,9 @@ export default class Synergistic extends Component {
             </Modal>
           </Col>
         </Row>
+        <div className="card">
         <Table columns={columns} dataSource={this.state.journalList} />
+        </div>
       </Container>
     );
   }

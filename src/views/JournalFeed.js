@@ -209,11 +209,13 @@ export default class Synergistic extends Component {
             className="ml-sm-auto mr-sm-auto"
           />
         </Row>
+        <div className="card">
         <Table
           columns={columns}
           expandedRowRender={expandedRowRender}
           dataSource={this.state.journalFeedList}
         />
+        </div>
       </Container>
     );
   }

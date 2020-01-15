@@ -203,7 +203,9 @@ export default class Synergistic extends Component {
 
           </Col>
         </Row>
-        <Table className="test" columns={columns} dataSource={this.state.synergyList} />
+        <div className="card">
+        <Table columns={columns} dataSource={this.state.synergyList} />
+        </div>
       </Container>
     );
   }

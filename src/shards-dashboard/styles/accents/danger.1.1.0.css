@@ -4348,7 +4348,7 @@ a.text-accent:hover, a.text-accent:focus {
   min-height: calc(100vh - 7.5rem); }
 
 .main-footer {
-  height: 3.75rem; }
+  height: 3.75rem;}
   .main-footer .copyright {
     color: #818EA3; }
   @media (max-width: 767.98px) {

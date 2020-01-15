@@ -102,10 +102,13 @@ class Login extends Component {
 
     return (
       <div className="c-login-wrapper">
-        <div class="c-login">
-          <h1>Login</h1>
+        <div className="h-100 row">
+        <div className="auth-form mx-auto my-auto col-md-5 col-lg-3 col-11">
+        <div class="c-login card ">
+          <div className="login-body card-body">
+          <h1 className="mb-4">Login</h1>
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-            <Form.Item label="E-mail">
+            <Form.Item  label="E-mail">
               {getFieldDecorator("email", {
                 rules: [
                   {
@@ -132,7 +135,7 @@ class Login extends Component {
 
             <Button
               disabled={this.state.spinnerLoading}
-              className="c-login__button"
+              className="d-table mx-auto btn btn-accent btn-pill mt-3"
               htmlType="submit"
             >
               <Spin
@@ -143,6 +146,9 @@ class Login extends Component {
               </Spin>
             </Button>
           </Form>
+          </div>
+        </div>
+        </div>
         </div>
       </div>
     );
