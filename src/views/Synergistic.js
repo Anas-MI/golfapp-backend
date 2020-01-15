@@ -186,24 +186,24 @@ export default class Synergistic extends Component {
           <PageTitle
             title="Synergistic"
             subtitle="Fit For Golf"
-            md="8"
+            md="10"
             className="ml-sm-auto mr-sm-auto"
           />
-          <Col className="md-4">
+          <Col className="col-md-2">
           <Link to={`/create/synergy`}>
             
             
           <div
         className=" bg-dark text-white text-center rounded p-3"
         
-        style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)", height: "50px", width: "237px", marginLeft: "261px"}}>
+        style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)"}}>
         Add New
       </div>
             </Link> 
 
           </Col>
         </Row>
-        <Table columns={columns} dataSource={this.state.synergyList} />
+        <Table className="test" columns={columns} dataSource={this.state.synergyList} />
       </Container>
     );
   }

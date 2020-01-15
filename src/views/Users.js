@@ -219,7 +219,9 @@ export default class UserTable extends Component {
     <Row noGutters className="page-header py-4">
       <PageTitle title="Users" subtitle="Fit For Golf" md="12" className="ml-sm-auto mr-sm-auto" />
     </Row>
-        <Table columns={columns} dataSource={this.state.usersList} />
+    <div className="card">
+        <Table className="card" columns={columns} dataSource={this.state.usersList} />
+    </div>
       </Container>
     );
   }
