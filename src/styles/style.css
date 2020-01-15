@@ -4,3 +4,7 @@ ul.ant-pagination.ant-table-pagination {
 .main-footer{
     margin-top: 20px;
 }
+
+body{
+    overflow: scroll;
+}
