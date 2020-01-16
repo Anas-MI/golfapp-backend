@@ -6,7 +6,7 @@ import PageTitle from "../components/common/PageTitle";
 import { Table, Input, Button, Icon, Tag, Divider, Switch } from "antd";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
-const { workoutGetAll } = apiList;
+const { shipGetAll } = apiList;
 
 export default class Workout extends Component {
   constructor(props) {
@@ -24,26 +24,27 @@ export default class Workout extends Component {
 
   componentDidMount() {
     axios
-      .get(workoutGetAll)
+      .get(shipGetAll)
       .then(res => {
+        console.log({res})
         if (res.status === 200) {
-          
+
           if (res.data) {
-            this.workoutList = res.data.data.map((workout, index) => ({
+            this.shippingList = res.data.data.map((shipping, index) => ({
               key: index + 1,
-              title: workout.title ? workout.title : "-",
-              url: workout.url ? workout.url : "No url Given",
-              description: workout.description ? workout.description : "No description Given",
-              isPaid: workout.isPaid,
-              thumbnail: workout.thumbnail ? workout.thumbnail : "-",
-              day: workout.day ? workout.day : "-",
-              position: workout.position ? workout.position : "-",
-              createdAt: workout.createdAt ? workout.createdAt : "-",
-              updatedAt: workout.updatedAt ? workout.updatedAt : "-",
-              id: workout._id ? workout._id : "Not Found"
+              createdOn: shipping.createdOn ? shipping.createdOn : "-",
+              addressLine1: shipping.addressLine1 ? shipping.addressLine1 : "No address Given",
+              addressLine2: shipping.addressLine2 ? shipping.addressLine2 : "No address Line 2 Given",
+              country: shipping.country ? shipping.country : "-",              useremail: shipping.user? shipping.user.email : "No email given",
+              userid: shipping.user ? shipping.user._id : "No id given",
+              state: shipping.state ? shipping.state : "-",
+              city: shipping.city ? shipping.city : "-",
+              pincode: shipping.pincode ? shipping.pincode : "-",
+              paid: shipping.paid,
+              id: shipping._id ? shipping._id : "Not Found"
             }));
 
-            this.setState({ workoutList: this.workoutList });
+            this.setState({ shippingList: this.shippingList });
             console.log(this.state)
           }
         }
@@ -142,6 +143,8 @@ export default class Workout extends Component {
         axios.post(changeWorkoutUrl, {isPaid: value} ).then(console.log).catch(console.log)
       }
     render() {
+
+
     const columns = [
       {
         title: "No.",
@@ -151,52 +154,58 @@ export default class Workout extends Component {
         sorter: (a, b) => a.key - b.key
       },
       {
-        title: "Title",
-        dataIndex: "title",
-        key: "title",
+        title: "User",
+        dataIndex: "useremail",
+        key: "useremail",
         width: "20%",
-        ...this.getColumnSearchProps("title")
+        ...this.getColumnSearchProps("useremail")
       },
       {
-        title: "Url",
-        dataIndex: "url",
-        key: "url",
+        title: "Country",
+        dataIndex: "country",
+        key: "country",
         width: "20%",
 
-        ...this.getColumnSearchProps("url")
+        ...this.getColumnSearchProps("country")
       },
       {
-        title: "Description",
-        dataIndex: "description",
-        key: "description",
+        title: "State",
+        dataIndex: "state",
+        key: "state",
     
-        ...this.getColumnSearchProps("description")
+        ...this.getColumnSearchProps("state")
       },
       {
-    
-    title: "Day",
-    dataIndex: "day",
-    key: "day",
-   
-    ...this.getColumnSearchProps("day")
-  },{
-  
-  title: "Position",
-  dataIndex: "position",
-  key: "position",
-  width: "8%",
-
-  sorter: (a, b) => a.key - b.key,
-
-},
-      {
-        title: "Is Paid",
-        dataIndex: "isPaid",
-        key: "isPaid",
-        render: (tag, record) => {
+        title: "Payment Status",
+        dataIndex: "paid",
+        key: "paid",
+        render: tag => {
+          let isPaid;
+          if(tag){
+            isPaid= "Paid"
+          } else {
+            isPaid= "Pending"
+          }
           return (
             <span>
-              <Switch onClick={this.onChange.bind(this, record.id)} checkedChildren="Yes" unCheckedChildren="No" defaultChecked={tag}/>
+              <Tag color="volcano" key={isPaid}>
+                {isPaid}
+              </Tag>
+            </span>
+          );
+        }
+      },
+      {
+        title: "Ordered On",
+        dataIndex: "createdOn",
+        key: "createdOn",
+        render: tag => {
+         
+          return (
+            <span>
+              <Tag color="volcano" key={tag}>
+                {tag}
+              </Tag>
             </span>
           );
         }
@@ -222,10 +231,10 @@ export default class Workout extends Component {
           <PageTitle
             title="Workout"
             subtitle="Fit For Golf"
-            md="10"
+            md="12"
             className="ml-sm-auto mr-sm-auto"
           />
-          <Col className="col-md-2">
+          {/* <Col className="col-md-2">
           <Link to={`/create/workout`}>
             
             
@@ -238,10 +247,10 @@ export default class Workout extends Component {
       </div>
             </Link> 
 
-          </Col>
+          </Col> */}
         </Row>
         <div className="card">
-        <Table columns={columns} dataSource={this.state.workoutList} />
+        <Table columns={columns} dataSource={this.state.shippingList} />
         </div>
       </Container>
     );
