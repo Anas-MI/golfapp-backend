@@ -43,6 +43,11 @@ export default function() {
       to: "/workout",
     },
     {
+      title: "Order Details",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/shipping",
+    },
+    {
       title: "Blog Posts",
       htmlBefore: '<i class="material-icons">vertical_split</i>',
       to: "/blog-posts",
