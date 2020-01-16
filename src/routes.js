@@ -36,6 +36,7 @@ import HowItWorks from "./views/HowItWorks"
 //Workout
 import Workout from "./views/Workout"
 import WorkoutEdit from "./views/WorkoutEdit"
+import WorkoutCreate from "./views/WorkoutCreate"
 
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
@@ -111,6 +112,11 @@ export default [
     path:"/workout",
     layout:DefaultLayout,
     component:Workout
+  },
+  {
+    path:"/create/workout",
+    layout:DefaultLayout,
+    component:WorkoutCreate
   },
   {
     path: "/add-new-post",
