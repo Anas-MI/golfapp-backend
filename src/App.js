@@ -26,7 +26,8 @@ import Users from "./views/Users";
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register";
 import Login from "./components/Login";
-
+import Success from "./views/Success"
+import Cancel from "./views/Cancel"
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -68,6 +69,9 @@ export default () => (
         })}
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/success" component={Success} />
+        <Route exact path="/cancel" component={Cancel} />
+
         {/* <Route exact path="/Dashboard" component={Dashboard} /> */}
 
         <Switch>

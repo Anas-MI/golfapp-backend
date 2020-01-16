@@ -199,7 +199,9 @@ export default class Favorites extends Component {
           />
       
         </Row>
+        <div className="card">
         <Table columns={columns} dataSource={this.state.favoritesList} />
+        </div>
       </Container>
     );
   }

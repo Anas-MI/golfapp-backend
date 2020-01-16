@@ -138,11 +138,16 @@ export default class Synergistic extends Component {
 
   render() {
     const expandedRowRender = record => {
-      let singleJournal = record.journalFeed.map(journal => {
+      
+      let singleJournal = Object.keys(record.journalFeed).map(journal => {
+        console.log(
+  {journal}
+        )
+        let value = record.journalFeed[journal];
         return (
           <div>
-            <h5 style={{ fontWeight: "700" }}>{journal.question}</h5>
-            <p>{journal.answer}</p>
+            <h5 style={{ fontWeight: "700" }}>{journal}</h5>
+            <p>{value}</p>
           </div>
         );
       });
@@ -204,11 +209,13 @@ export default class Synergistic extends Component {
             className="ml-sm-auto mr-sm-auto"
           />
         </Row>
+        <div className="card">
         <Table
           columns={columns}
           expandedRowRender={expandedRowRender}
           dataSource={this.state.journalFeedList}
         />
+        </div>
       </Container>
     );
   }

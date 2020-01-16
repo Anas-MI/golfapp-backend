@@ -38,6 +38,10 @@ import Workout from "./views/Workout"
 import WorkoutEdit from "./views/WorkoutEdit"
 import WorkoutCreate from "./views/WorkoutCreate"
 
+//Success and cancel for paypal
+import Success from "./views/Success"
+import Cancel from "./views/Cancel"
+
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
 import Login from "./components/Login"
@@ -147,5 +151,14 @@ export default [
     path:"/login2",
     layout:DefaultLayout,
     component: Login
-  }
+  },
+  // {
+  //   path:"/success",
+  //   // layout:DefaultLayout,
+  //   component: Success
+  // },{
+  //   path:"/cancel",
+  //   // layout:DefaultLayout,
+  //   component: Cancel
+  // }
 ];

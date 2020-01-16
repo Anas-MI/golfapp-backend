@@ -222,24 +222,27 @@ export default class Workout extends Component {
           <PageTitle
             title="Workout"
             subtitle="Fit For Golf"
-            md="8"
+            md="10"
             className="ml-sm-auto mr-sm-auto"
           />
-          <Col className="md-4">
-          <Link to={`/create/workout`}>
+          <Col className="col-md-2">
+          <Link to={`/create/synergy`}>
             
             
           <div
         className=" bg-dark text-white text-center rounded p-3"
         
-        style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)", height: "50px", width: "237px", marginLeft: "261px"}}>
+        // style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)", height: "50px", width: "237px", marginLeft: "261px"}}
+        >
         Add New
       </div>
             </Link> 
 
           </Col>
         </Row>
+        <div className="card">
         <Table columns={columns} dataSource={this.state.workoutList} />
+        </div>
       </Container>
     );
   }

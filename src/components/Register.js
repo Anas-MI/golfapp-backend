@@ -6,6 +6,7 @@ import { registerUser } from "../Redux/actions/authActions";
 import classnames from "classnames";
 import "antd/dist/antd.css";
 import "../styles/register.css";
+import "../styles/style.css";
 import {
   Form,
   Input,
