@@ -78,6 +78,21 @@ export const validateState = state => {
   }
 };
 
+//empty or not validation
+export const validateField = state => {
+  if (state === "" || state === null) {
+    return {
+      stateError: true,
+      ErrorMsg: "Can't be empty!"
+    };
+  } else {
+    return {
+      stateError: false,
+      ErrorMsg: ""
+    };
+  }
+};
+
 //Phone Number validation
 export const validateNumber = number => {
     if(number.length>12){

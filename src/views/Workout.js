@@ -220,13 +220,13 @@ export default class Workout extends Component {
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
           <PageTitle
-            title="Synergistic"
+            title="Workout"
             subtitle="Fit For Golf"
             md="8"
             className="ml-sm-auto mr-sm-auto"
           />
           <Col className="md-4">
-          <Link to={`/create/synergy`}>
+          <Link to={`/create/workout`}>
             
             
           <div
