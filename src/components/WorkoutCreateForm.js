@@ -58,7 +58,7 @@ export default class WorkoutCreateForm extends Component {
       description, 
    
       thumbnail,  
-      position ]
+       ]
 console.log(inputs)
 inputs.map(input => {
  
@@ -188,6 +188,7 @@ inputs.map(input => {
                         placeholder="Position...."
                         onChange={this.handleChange.bind(this, "position")}
                         value={this.state.position}
+                        type="number"
                         autoSize
                       />
                     </Col>
