@@ -42,6 +42,9 @@ import WorkoutCreate from "./views/WorkoutCreate"
 import Success from "./views/Success"
 import Cancel from "./views/Cancel"
 
+//Shipping
+import Shipping from "./views/Shipping";
+
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
 import Login from "./components/Login"
@@ -126,6 +129,11 @@ export default [
     path: "/add-new-post",
     layout: DefaultLayout,
     component: AddNewPost
+  },
+  {
+    path:"/shipping",
+    layout:DefaultLayout,
+    component:Shipping
   },
   {
     path: "/errors",
