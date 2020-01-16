@@ -24,7 +24,7 @@ const apiList = {
   updateWorkOut:`${baseUrl}/api/v1/workout/update/`,
   commonWorkOut: `${baseUrl}/api/v1/workout/`,
   changeWorkout: `${baseUrl}/api/v1/workout/change/`,
-
+  createWorkout: `${baseUrl}/api/v1/workout/create`
 
 };
 export default apiList;
