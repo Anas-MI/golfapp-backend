@@ -218,7 +218,7 @@ export default class Workout extends Component {
             <div>
          
           <Divider type="vertical"/>
-          <Link to={`/edit/workout/${record.id}`}>Edit</Link>
+          <Link to={`/view/order/${record.id}`}>View</Link>
           <Divider type="vertical"/>
          
             </div>
@@ -229,7 +229,7 @@ export default class Workout extends Component {
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
           <PageTitle
-            title="Workout"
+            title="Order List"
             subtitle="Fit For Golf"
             md="12"
             className="ml-sm-auto mr-sm-auto"
