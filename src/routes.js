@@ -44,6 +44,7 @@ import Cancel from "./views/Cancel"
 
 //Shipping
 import Shipping from "./views/Shipping";
+import ViewOrder from "./views/ViewOrder"
 
 import BlogPosts from "./views/BlogPosts";
 import Register from "./components/Register"
@@ -134,6 +135,11 @@ export default [
     path:"/shipping",
     layout:DefaultLayout,
     component:Shipping
+  },
+  {
+    path:"/view/order/:id",
+    layout:DefaultLayout,
+    component:ViewOrder
   },
   {
     path: "/errors",
