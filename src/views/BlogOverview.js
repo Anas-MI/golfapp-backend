@@ -108,7 +108,7 @@ class Dashboard extends Component {
 Dashboard.defaultProps = {
   smallStats: [
     {
-      label: "Posts",
+      label: "Users",
       value: "2,390",
       percentage: "4.7%",
       increase: true,
@@ -126,7 +126,7 @@ Dashboard.defaultProps = {
       ]
     },
     {
-      label: "Pages",
+      label: "Favorites",
       value: "182",
       percentage: "12.4",
       increase: true,
@@ -144,7 +144,7 @@ Dashboard.defaultProps = {
       ]
     },
     {
-      label: "Comments",
+      label: "Orders",
       value: "8,147",
       percentage: "3.8%",
       increase: false,
@@ -163,7 +163,7 @@ Dashboard.defaultProps = {
       ]
     },
     {
-      label: "New Customers",
+      label: "Ebooks",
       value: "29",
       percentage: "2.71%",
       increase: false,
@@ -182,7 +182,7 @@ Dashboard.defaultProps = {
       ]
     },
     {
-      label: "Subscribers",
+      label: "Synergistic Posts",
       value: "17,281",
       percentage: "2.4%",
       increase: false,
