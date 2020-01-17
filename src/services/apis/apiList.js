@@ -27,6 +27,8 @@ const apiList = {
   createWorkout: `${baseUrl}/api/v1/workout/create`,
   paypalBuyBook: `${baseUrl}/api/v1/paypal/success`,
   shipGetAll:`${baseUrl}/api/v1/ship/getall`,
+  viewOrder:`${baseUrl}/api/v1/ship/`,
+
 
 
 };
