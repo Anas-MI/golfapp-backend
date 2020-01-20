@@ -1,4 +1,4 @@
 const projectSettings = {
-    baseUrl                  : "http://localhost:4000"
+    baseUrl                  : "https://golf-server.herokuapp.com/api/v1"
 }
 export default projectSettings
