@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React, { PureComponent, Component } from "react";
+import { Upload, Modal, Icon, message } from "antd";
 import apiList from "../services/apis/apiList";
 import axios from "axios";
-import { message, Input, Select } from "antd";
-
-import { Upload, Icon } from "antd";
+import { Input, Select } from "antd";
 import {
   Card,
   CardHeader,
@@ -15,7 +14,6 @@ import {
   FormInput,
   Button
 } from "shards-react";
-import { Modal } from "antd";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -23,76 +21,40 @@ message.config({
   top: 80
 });
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
-class PicturesWall extends React.Component {
-  state = {
-    previewVisible: false,
-    previewImage: "",
-    fileList: []
-  };
-
-  handleCancel = () => this.setState({ previewVisible: false });
-
-  handlePreview = async file => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    this.setState({
-      previewImage: file.url || file.preview,
-      previewVisible: true
-    });
-  };
-
-  handleChange = ({ fileList }) => this.setState({ fileList });
-
-  render() {
-    const { previewVisible, previewImage, fileList } = this.state;
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-    return (
-      <div className="clearfix">
-        <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={this.handlePreview}
-          onChange={this.handleChange}
-        >
-          {fileList.length >= 1 ? null : uploadButton}
-        </Upload>
-        <Modal
-          visible={previewVisible}
-          footer={null}
-          onCancel={this.handleCancel}
-        >
-          <img alt="example" style={{ width: "100%" }} src={previewImage} />
-        </Modal>
-      </div>
-    );
-  }
-}
-
 export default class SynergyCreateForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       fields: {},
-      day: "monday"
+      day: "monday",
+      previewVisible: false,
+      previewImage: "",
+      fileData: {},
+      fileList: props.fileList || [],
+      files: [],
+      previewModal: false,
+      previewUrl: ""
     };
   }
+
+  handlePreview = file => {
+    this.setState({
+      previewModal: true,
+      previewUrl: file.thumbUrl
+    });
+  };
+  handleCloseModal = () => {
+    this.setState({
+      previewModal: false
+    });
+  };
+
+  handleCancel = () => this.setState({ previewVisible: false });
+
+  handleChangeImage = ({ fileList }) => {
+    console.log({ fileList });
+    this.setState({ fileList });
+  };
 
   componentDidMount() {}
 
@@ -114,6 +76,12 @@ export default class SynergyCreateForm extends Component {
     };
     openMessage();
     const { synergyCreateApi } = apiList;
+    const formData = new FormData();
+    this.state.fileList.forEach(file => {
+      formData.append("synergy", file);
+    });
+    console.log({ submit: this.state.fileList });
+    console.log({ formData });
     let {
       name,
       goal,
@@ -123,7 +91,8 @@ export default class SynergyCreateForm extends Component {
       thinkGolf,
       makeMeSmile,
       week,
-      day
+      day,
+      thoughtsBy
     } = this.state;
 
     const body = {
@@ -135,10 +104,15 @@ export default class SynergyCreateForm extends Component {
       thinkGolf,
       makeMeSmile,
       week,
-      day
+      day,
+      thoughtsBy
     };
+
+    let bodyForm = JSON.stringify(body);
+    formData.append("body", bodyForm);
+
     axios
-      .post(synergyCreateApi, { ...body })
+      .post(synergyCreateApi, formData)
       .then(res => {
         if (res.status === 200) {
           setTimeout(() => {
@@ -148,7 +122,9 @@ export default class SynergyCreateForm extends Component {
               duration: 3
             });
           }, 1000);
-          window.location.href = "/synergistic";
+          setTimeout(() => {
+            window.location.href = "/synergistic";
+          }, 2000);
         } else {
           console.log({ res });
         }
@@ -159,8 +135,63 @@ export default class SynergyCreateForm extends Component {
   }
 
   render() {
-    const { title } = this.props;
+    //Upload functionality
+    const { multiple = true, showUploadList = true } = this.props;
 
+    const props = {
+      onRemove: file => {
+        const index = this.state.fileList.indexOf(file);
+        const newFileList = this.state.fileList.slice();
+        newFileList.splice(index, 1);
+        this.props.onChange && this.props.onChange(newFileList);
+        this.setState({
+          fileList: newFileList,
+          files: newFileList
+        });
+      },
+      beforeUpload: file => {
+        let count = [];
+        let files = [];
+        if (showUploadList) {
+          files = this.state.files;
+        }
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = e => {
+          file.thumbUrl = e.target.result;
+          files.push(file);
+          files.map((item, index) => {
+            if (file.name === item.name) {
+              count.push(index);
+              if (count.length > 1) {
+                message.error("This File Aready Exists");
+                files.splice(index, 1);
+                return;
+              }
+            }
+          });
+          this.setState({
+            fileList: [...files]
+          });
+
+          this.props.onChange && this.props.onChange(this.state.fileList);
+        };
+        return false;
+      },
+      onPreview: this.handlePreview,
+      fileList: showUploadList ? this.state.fileList : null,
+      listType: "picture-card",
+      multiple: multiple,
+      showUploadList: showUploadList
+    };
+
+    const { title } = this.props;
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     return (
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
@@ -211,13 +242,22 @@ export default class SynergyCreateForm extends Component {
                         <Option value="friday">Friday</Option>
                       </Select>
                     </Col>
-
+                    {/* <ManualUpload></ManualUpload> */}
                     <Col md="8" className="form-group">
                       <label htmlFor="fePhoneNumber">Goal</label>
                       <TextArea
                         placeholder="Goal...."
                         onChange={this.handleChange.bind(this, "goal")}
                         value={this.state.goal}
+                        autoSize
+                      />
+                    </Col>
+                    <Col md="8" className="form-group">
+                      <label htmlFor="fePhoneNumber">Explanation</label>
+                      <TextArea
+                        placeholder="Explanation...."
+                        onChange={this.handleChange.bind(this, "explanation")}
+                        value={this.state.explanation}
                         autoSize
                       />
                     </Col>
@@ -234,7 +274,7 @@ export default class SynergyCreateForm extends Component {
                     </Col>
                     <Col md="2"></Col>
                     <Col md="2">
-                      <PicturesWall></PicturesWall>
+                      <div className="clearfix"></div>
                     </Col>
                   </Row>
                   <Row form>
@@ -244,6 +284,17 @@ export default class SynergyCreateForm extends Component {
                         placeholder="Thoughts..  "
                         onChange={this.handleChange.bind(this, "thoughts")}
                         value={this.state.thoughts}
+                        autoSize
+                      />
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md="8" className="form-group">
+                      <label htmlFor="feEmail">Thoughts By</label>
+                      <TextArea
+                        placeholder="Thoughts By..  "
+                        onChange={this.handleChange.bind(this, "thoughtsBy")}
+                        value={this.state.thoughtsBy}
                         autoSize
                       />
                     </Col>
@@ -271,7 +322,31 @@ export default class SynergyCreateForm extends Component {
                     </Col>
                   </Row>
 
-                  <Row form></Row>
+                  <Row form>
+                    {" "}
+                    <div>
+                      <Upload {...props}>
+                        {!showUploadList && this.state.fileList.length >= 1 ? (
+                          <img
+                            src={this.state.fileList[0].thumbUrl}
+                            className=""
+                          />
+                        ) : (
+                          uploadButton
+                        )}
+                      </Upload>
+                      <Modal
+                        visible={this.state.previewModal}
+                        footer={null}
+                        onCancel={this.handleCloseModal}
+                      >
+                        <img
+                          style={{ width: "100%" }}
+                          src={this.state.previewUrl}
+                        />
+                      </Modal>
+                    </div>
+                  </Row>
                   <Button theme="accent" onClick={this.submitForm.bind(this)}>
                     Create Post
                   </Button>
