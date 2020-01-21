@@ -29,6 +29,7 @@ export default class SynergyPost extends Component {
           this.setState({synergyId: res.data.data._id})
           delete data["_id"]
           delete data["__v"]
+          delete data["entries"]
          const finalData = Object.keys(data).map((key,value) => {
 
             if(key === "week"){
