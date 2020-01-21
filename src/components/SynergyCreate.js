@@ -242,7 +242,7 @@ export default class SynergyCreateForm extends Component {
                         <Option value="friday">Friday</Option>
                       </Select>
                     </Col>
-                    {/* <ManualUpload></ManualUpload> */}
+                 
                     <Col md="8" className="form-group">
                       <label htmlFor="fePhoneNumber">Goal</label>
                       <TextArea
