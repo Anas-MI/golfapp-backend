@@ -34,7 +34,7 @@ export default class Favorites extends Component {
       .get(favoritesGetAllApi)
       .then(res => {
         if (res.status === 200) {
-          
+          console.log({res})
           if (res.data) {
             this.favoritesList = res.data.data.map((favorite, index) => ({
               key: index + 1,
@@ -192,7 +192,7 @@ export default class Favorites extends Component {
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
           <PageTitle
-            title="Synergistic"
+            title="Favorites"
             subtitle="Fit For Golf"
             md="12"
             className="ml-sm-auto mr-sm-auto"
