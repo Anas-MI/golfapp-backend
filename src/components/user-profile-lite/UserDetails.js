@@ -60,8 +60,8 @@ class UserDetails extends Component {
               };
             });
             this.setState({ fileList: list });
+            this.setState({ files: list  });
           }
-          this.setState({ files: res.data.media });
           // this.props.setUserToUpdate({name: this.state.name, _id: this.state.id})
         }
       })

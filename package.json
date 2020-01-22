@@ -26,7 +26,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "shards-react": "^1.0.0",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "uid": "0.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
