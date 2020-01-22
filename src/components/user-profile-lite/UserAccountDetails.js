@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import apiList from "../../services/apis/apiList";
 import axios from "axios";
 import { connect } from "react-redux";
+import { Upload, Icon } from 'antd';
+import {Button as AntdButton} from "antd"; 
 import { setUserToUpdate } from "../../Redux/actions/authActions";
 import { Tag, message } from "antd";
 import {
@@ -166,6 +168,8 @@ message.config({
 
     console.log(this.state);
 
+    
+
     return (
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
@@ -270,7 +274,10 @@ message.config({
                       />
                     </Col>
                   </Row>
-                  <Row form></Row>
+                  <Row form>
+                        <br/>
+                
+                  </Row>
                   <Button
                     theme="accent"
                     disabled={!this.state.enable}
@@ -287,6 +294,14 @@ message.config({
     );
   }
 }
+
+
+
+
+
+
+
+
 
 UserAccountDetails.propTypes = {
   title: PropTypes.string
