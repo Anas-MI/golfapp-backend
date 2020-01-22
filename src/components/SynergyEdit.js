@@ -189,7 +189,7 @@ export default class SynergyEditForm extends Component {
     //upload functionality
  
     const { multiple = true, showUploadList = true } = this.props;
-
+console.log(this.state)
     const props = {
       onRemove: file => {
         const index = this.state.fileList.indexOf(file);
@@ -242,7 +242,7 @@ export default class SynergyEditForm extends Component {
         if (fileId.url) {
           let url =
             baseUrl +
-            "/api/v1/synergistic/synergistic/delete/image/" +
+            "/api/v1/synergistic/delete/image/" +
             this.state._id;
           let body = {
             toDelete: fileId.orig
@@ -371,7 +371,7 @@ export default class SynergyEditForm extends Component {
                     <Col md="8" className="form-group">
                       <label htmlFor="feEmail">Thoughts By</label>
                       <TextArea
-                        placeholder="Thoughts..  "
+                        placeholder="Thoughts By..  "
                         onChange={this.handleChange.bind(this, "thoughtsBy")}
                         value={this.state.thoughtsBy}
                         autoSize
