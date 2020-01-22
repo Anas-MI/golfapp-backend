@@ -58,6 +58,9 @@ export default class SynergyPost extends Component {
                 case "thoughts":
                   title="Thoughts";
                   break;
+                  case "thoughtsBy":
+                  title="Thoughts By";
+                  break;
                   case "thinkGolf":
                     title="Think Golf";
                 break;
