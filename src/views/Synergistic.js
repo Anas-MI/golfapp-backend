@@ -23,7 +23,6 @@ export default class Synergistic extends Component {
       .get(synergyGetAllApi)
       .then(res => {
         if (res.status === 200) {
-          
           if (res.data) {
             this.synergyList = res.data.data.map((synergy, index) => ({
               key: index + 1,
@@ -35,7 +34,6 @@ export default class Synergistic extends Component {
             }));
 
             this.setState({ synergyList: this.synergyList });
-          
           }
         }
       })
@@ -172,11 +170,11 @@ export default class Synergistic extends Component {
         dataIndex: "",
         key: "x",
         render: (text, record) => (
-            <div>
-          <Link to={`/view/synergy/${record.id}`}>Show</Link> 
-          <Divider type="vertical"/>
-          <Link to={`/edit/synergy/${record.id}`}>Edit</Link>
-            </div>
+          <div>
+            <Link to={`/view/synergy/${record.id}`}>Show</Link>
+            <Divider type="vertical" />
+            <Link to={`/edit/synergy/${record.id}`}>Edit</Link>
+          </div>
         )
       }
     ];
@@ -190,21 +188,18 @@ export default class Synergistic extends Component {
             className="ml-sm-auto mr-sm-auto"
           />
           <Col className="col-md-2">
-          <Link to={`/create/synergy`}>
-            
-            
-          <div
-        className=" bg-dark text-white text-center rounded p-3"
-        
-        style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)"}}>
-        Add New
-      </div>
-            </Link> 
-
+            <Link to={`/create/synergy`}>
+              <div
+                className=" bg-dark text-white text-center rounded p-3"
+                style={{ boxShadow: "inset 0 0 5px rgba(0,0,0,.2)" }}
+              >
+                Add New
+              </div>
+            </Link>
           </Col>
         </Row>
         <div className="card">
-        <Table columns={columns} dataSource={this.state.synergyList} />
+          <Table columns={columns} dataSource={this.state.synergyList} />
         </div>
       </Container>
     );
