@@ -82,17 +82,17 @@ class Dashboard extends Component {
 
       {/* New Draft */}
       <Col lg="4" md="6" sm="12" className="mb-4">
-        <NewDraft />
+        {/* <NewDraft /> */}
       </Col>
 
       {/* Discussions */}
       <Col lg="5" md="12" sm="12" className="mb-4">
-        <Discussions />
+        {/* <Discussions /> */}
       </Col>
 
       {/* Top Referrals */}
       <Col lg="3" md="12" sm="12" className="mb-4">
-        <TopReferrals />
+        {/* <TopReferrals /> */}
       </Col>
     </Row>
   </Container>
