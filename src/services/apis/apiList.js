@@ -26,6 +26,8 @@ const apiList = {
   changeWorkout: `${baseUrl}/api/v1/workout/change/`,
   createWorkout: `${baseUrl}/api/v1/workout/create`,
   paypalBuyBook: `${baseUrl}/api/v1/paypal/success`,
+  paypalWorkout: `${baseUrl}/api/v1/paypal/successworkout`,
+  paypalBuyEbook: `${baseUrl}/api/v1/paypal/successebook`,
   shipGetAll:`${baseUrl}/api/v1/ship/getall`,
   viewOrder:`${baseUrl}/api/v1/ship/`,
 
