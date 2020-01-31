@@ -6,6 +6,7 @@ const apiList = {
   getAllUsersApi: `${baseUrl}/api/v1/users`,
   updateUserDetailsApi: `${baseUrl}/api/v1/users/update`,
   getUserDetailsApi: `${baseUrl}/api/v1/users/`,
+  resetPasswordApi: `${baseUrl}/api/v1/users/reset`,
   deleteUserApi:`${baseUrl}/api/v1/users/`,
   synergyGetAllApi:`${baseUrl}/api/v1/synergistic/getall`,
   synergyCreateApi: `${baseUrl}/api/v1/synergistic/create`,
