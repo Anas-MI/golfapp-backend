@@ -16,6 +16,10 @@ import PrivateRoute from "./PrivateRoute";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 
+
+//Reset Password
+import ResetPassword from "./components/ResetPassword"
+
 //Component Imports
 import Dashboard from "./views/BlogOverview";
 import UserProfileLite from "./views/UserProfileLite";
@@ -68,6 +72,7 @@ export default () => (
           );
         })}
         <Route exact path="/register" component={Register} />
+        <Route exact path="/resetpassword" component={ResetPassword} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/success" component={Success} />
         <Route exact path="/cancel" component={Cancel} />
